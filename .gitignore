@@ -1,0 +1,24 @@
+# OpenClaw workspace
+
+# OS
+.DS_Store
+
+# Logs / temp
+*.log
+.tmp/
+
+# Secrets / credentials
+**/credentials/
+**/*token*
+**/*secret*
+
+# Node / Python
+node_modules/
+__pycache__/
+venv/
+.env
+
+# Optional exports
+*.pdf
+*.png
+*.jpg
