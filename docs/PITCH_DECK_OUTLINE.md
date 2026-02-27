@@ -99,6 +99,9 @@ Bu slaytın amacı “pazar çok büyük” demek kadar, **yoğunluk (density) i
 **Konuşma notu:**
 Premium’u “daha fazla kaydırma” diye satmıyoruz; “daha derin geri sarma + kontrol” diye satıyoruz.
 
+**Kanıt / sektör normu (dipnot / konuşma notu):**
+- Abonelik işlerinde **yıllık plan**, daha uzun taahhüt sayesinde genellikle **daha düşük churn** ve daha iyi **cashflow** üretir (industry best practice). Bu yüzden yıllık planı agresif indirimle konumlandırıyoruz.
+
 ---
 
 ## 8) Traction / Plan (Pilot KPI)
