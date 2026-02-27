@@ -144,8 +144,8 @@ Bu ürünün pazarlaması “herkese her yerde” değil, önce yoğunluk.
 ## 11) Ekip
 
 - Kurucu: Yücel Ahmet Özay
-- (CTO): TBD
-- (Ops/Growth): TBD
+- CTO: TBD
+- Ops/Growth: TBD
 
 **Konuşma notu:**
 Operasyonel ağ hendek olduğu için “ops liderliği” burada kilit rol.
