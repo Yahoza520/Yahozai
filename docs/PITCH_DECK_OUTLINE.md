@@ -163,10 +163,10 @@ Operasyonel ağ hendek olduğu için “ops liderliği” burada kilit rol.
 
 **Yatırım talebi:** $250k–$500k (seed/angel)
 
-**Fon kullanımı (özet):**
-- %60 pazar hakimiyeti / dağıtım (density + partner ağ)
-- %30 ürün + güvenlik + ölçek (anti‑abuse, performans)
-- %10 operasyonel genişleme
+**Fon kullanımı (özet, %):**
+- **%60** pazar hakimiyeti / dağıtım (density + partner ağ)
+- **%30** ürün + güvenlik + ölçek (anti‑abuse, performans)
+- **%10** operasyonel genişleme
 
 **Kapanış:**
 SPOTTED, şehirdeki “kaçan anları” güvenli şekilde geri getiren bir dating motoru. İstanbul’u semt semt alıp Türkiye geneline taşıyoruz.
