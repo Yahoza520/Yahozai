@@ -37,7 +37,7 @@ Kişisel verileriniz aşağıdaki amaçlarla işlenebilir:
 ### 4. Hukuki Sebepler
 Kişisel verileriniz KVKK madde 5 ve 6 kapsamında; **sözleşmenin kurulması/ifası**, **veri sorumlusunun hukuki yükümlülüğü**, **meşru menfaat** ve gerekli hallerde **açık rıza** hukuki sebeplerine dayanılarak işlenir.
 
-Konum verisinin retrospektif eşleşme amacıyla işlenmesi için, uygulama içinde ayrıca bilgilendirme yapılır; gerektiğinde açık rıza alınır.
+Konum verisinin retrospektif eşleşme (dating) amacıyla işlenmesi için, uygulama içinde ayrıca bilgilendirme yapılır ve **Açık Rıza** alınır (Seçenek A).
 
 ### 5. Aktarım ve Alıcı Grupları
 Kişisel verileriniz, amaçlarla sınırlı olmak üzere aşağıdaki alıcı gruplarına aktarılabilir:
@@ -69,13 +69,15 @@ Başvurularınızı **kvkk@spottedapp.com** adresine iletebilirsiniz.
 
 > Tasarım notu: Rızalar ayrı ayrı alınmalı; tek bir kutuda birleştirilmemeli.
 
-### 1) Konum verisi (retrospektif eşleşme)
-**Amaç:** Uygulamanın Time Travel (son 24/72 saat) ve eşleşme fonksiyonlarını çalıştırmak.
+### 1) Konum verisi (retrospektif eşleşme) — **Açık Rıza (Seçenek A)**
+**Amaç:** Uygulamanın Time Travel (son 24/72 saat) ve retrospektif eşleşme fonksiyonlarını çalıştırmak.
 
 **Rıza metni (kısa):**
-“SPOTTED’in, Time Travel ve retrospektif eşleşme hizmetini sunabilmesi için konum verilerimin (retrospektif, real‑time paylaşım olmaksızın) işlenmesini onaylıyorum.”
+“SPOTTED’in, Time Travel ve retrospektif eşleşme hizmetini sunabilmesi için konum verilerimin (real‑time konum paylaşımı olmaksızın) işlenmesine **açık rıza** veriyorum.”
 
-[ ] Onaylıyorum
+[ ] Açık rıza veriyorum
+
+**Bilgilendirme notu:** Konum iznini kapatmanız halinde Time Travel ve eşleşme özellikleri çalışmayabilir.
 
 ### 2) Bildirim izni (opsiyonel)
 “Eşleşmeler ve güvenlik bildirimleri için bildirim gönderilmesini istiyorum.”
