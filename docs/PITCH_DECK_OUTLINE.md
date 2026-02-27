@@ -114,14 +114,15 @@ Buraya gerçek dashboard metriklerini koyduğumuz an yatırımcı hikayesi “ya
 
 ## 9) Moat (Hendek)
 
-**Ana hendek:** Operasyonel ağ + partner mekan altyapısı
+**Ana hendek:** Operasyonel ağ + partner mekân altyapısı
 
-- Partner mekanlarda **QR doğrulama** ile sahtecilik azaltma
-- Semt bazlı “anchor” noktalarla density inşası
-- Rakiplerin yazılımla kopyalaması zor: saha, anlaşmalar, rutin, dağıtım
+**Kopyalanması zor 3 katman:**
+- **Partner sözleşme şablonu + saha kurulum playbook’u:** QR yerleşimi, görünürlük, operasyon rutini.
+- **Semt içi anchor dağıtım + yoğunluk (density) inşası:** Sniper semtlerde “çekirdek” oluşturma ve dalga yayılımı.
+- **Güvenlik bariyeri:** partner QR + uygulama içi onay ile sahtecilik/fraud maliyetini yükseltme.
 
 **Konuşma notu:**
-Algoritma geliştirilebilir ama asıl hendek “operasyonel ağı” kurmak ve yönetmek.
+Rakipler bir özelliği kopyalayabilir; ancak **saha ağı** ve **operasyon disiplini** kopyalanması en zor hendektir.
 
 ---
 
@@ -130,14 +131,20 @@ Algoritma geliştirilebilir ama asıl hendek “operasyonel ağı” kurmak ve y
 **Bütçe:** 20.000.000 TL (İstanbul)
 
 **Strateji:** Sniper/Density → Dalga yayılımı
-- Hafta 1: 3 semtte yoğunluk kur
-- Hafta 2–3: UGC + retargeting + Premium moment
-- Hafta 4–5: ikinci dalga semtler
 
-**Offline dağıtım:** Pilot **10 partner mekan** (QR + görünür “Spotted” alanı)
+- **Hafta 1:** 3 semtte yoğunluk kur (Beşiktaş/Kadıköy/Nişantaşı)
+- **Hafta 2–3:** UGC + retargeting + Premium “aha moment” (72 saat)
+- **Hafta 4–5:** ikinci dalga semtler (talebe göre genişleme)
+
+**İçerik kadansı (pilot):**
+- Influencer/partner içerik hedefi: **2 günde 1 yüksek etkili içerik** (sürdürülebilir tempo).
+
+**Offline dağıtım (pilot 10 partner mekân):**
+- **4 Beşiktaş / 4 Kadıköy / 2 Nişantaşı**
+- Her mekânda: QR doğrulama + görünür “Spotted” alanı
 
 **Konuşma notu:**
-Bu ürünün pazarlaması “herkese her yerde” değil, önce yoğunluk.
+Bu ürünün pazarlaması “herkese her yerde” değil: önce **yoğunluk**, sonra yayılım.
 
 ---
 
