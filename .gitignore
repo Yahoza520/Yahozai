@@ -22,3 +22,6 @@ venv/
 *.pdf
 *.png
 *.jpg
+
+# Data exports
+plastik_ambalaj_50.csv
