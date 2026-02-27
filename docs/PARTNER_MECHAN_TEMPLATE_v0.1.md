@@ -7,6 +7,11 @@
 
 ## 1) Özet (1 sayfa)
 
+### Pilot Mekân Profili (Seçildi)
+- **Mekân tipi:** Bar (Afterwork / kokteyl bar, 25–40)
+- **Aktif günler:** Cuma–Cumartesi
+- **QR aktivasyon saati:** 18:00–01:00
+
 **Taraflar:**
 - SPOTTED (DENK) — [Şirket unvanı TBD]
 - Partner Mekân — [Mekân/Firma unvanı]
