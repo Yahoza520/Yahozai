@@ -100,11 +100,11 @@ Premium’u “daha fazla kaydırma” diye satmıyoruz; “daha derin geri sarm
 
 **Pilot semtler:** Beşiktaş / Kadıköy / Nişantaşı
 
-**Hedef (5. hafta):** *(rakamlar netleştirilecek)*
-- İndirme:
-- MAU:
-- Premium dönüşüm (%):
-- D7 retention (%):
+**Hedef (5. hafta):**
+- **İndirme:** 1.000.000
+- **MAU:** 200.000
+- **Premium dönüşüm:** %3
+- **D7 retention:** %15
 
 **Konuşma notu:**
 Buraya gerçek dashboard metriklerini koyduğumuz an yatırımcı hikayesi “yaptık” seviyesine çıkar.
