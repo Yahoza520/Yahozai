@@ -52,8 +52,8 @@ Yurt dışına aktarım olması halinde, KVKK’ya uygun şekilde gerekli mekani
 ### 6. Saklama Süreleri
 Veriler, işleme amacının gerektirdiği süre boyunca saklanır.
 
-- **Konum/kesişim verileri:** hizmet gereği sınırlı süre (Basic/Premium pencerelerine göre) + güvenlik kayıtları
-- **Loglar:** güvenlik ve hata ayıklama için sınırlı süre
+- **Konum/kesişim verileri:** hizmet gereği (Basic/Premium pencereleri) + en fazla **1 ay**
+- **Loglar:** güvenlik ve hata ayıklama için **90 gün**
 - **Ödeme kayıtları:** mali mevzuat kapsamında zorunlu süre
 
 Kesin süreler, “Saklama ve İmha Politikası”nda belirlenir.
@@ -149,9 +149,10 @@ Aşağıdakiler yasaktır:
 | Veri Türü | Amaç | Saklama (taslak) | İmha |
 |---|---|---:|---|
 | Hesap (e‑posta) | üyelik | hesap kapanış + makul süre | silme/anonymize |
-| Konum/kesişim | time travel | pencere + kısa süre | silme |
-| Mesaj | iletişim | kullanıcı talebi/uyuşmazlık | silme |
-| Log | güvenlik | 30–90 gün | silme |
+| Konum/kesişim | time travel | pencere + **1 ay** | silme |
+| Mesaj | iletişim | **1 ay** | silme |
+| Log | güvenlik | **90 gün** | silme |
+| Report/Block | güvenlik | **6 ay** | silme |
 | Ödeme kayıtları | finans | mevzuat süresi | silme |
 
 > Saklama süreleri, ürün gereksinimi + güvenlik + mevzuat ile netleştirilir.
