@@ -72,12 +72,13 @@ Bu işin “now” moment’i: şehirde sosyal keşif var ama doğru ürün form
 
 ## 6) Pazar
 
-**Pazar çerçevesi (slaytta sade):**
-- Online dating + sosyal keşif (Türkiye odak + metropol segment)
-- İlk hedef: İstanbul’un yoğun semtlerinde “density” kazanıp Türkiye’ye yayılmak
+**Pazar çerçevesi (persona bazlı):**
+- **TAM:** Türkiye’de 18–40 yaş şehirli bekar nüfus (geniş hedef)
+- **SAM:** İstanbul + büyük şehirlerde (Ankara/İzmir/Bursa/Antalya/Adana) aktif dating kullanan segment
+- **SOM (ilk 12 ay):** İstanbul pilot semtleri + kademeli yayılım ile erişilebilecek aktif kullanıcı kitlesi
 
 **Konuşma notu:**
-Bu slayta TAM/SAM/SOM rakamlarını koyacağız ama önemli olan: dating’de değer yoğunlukla açılır; o yüzden “semt fetih” stratejisi kritik.
+Bu slaytın amacı “pazar çok büyük” demek kadar, **yoğunluk (density) ile açılan** bir pazar olduğunu vurgulamak. Rakamları resmi kaynak/varsayım dipnotuyla ekleyeceğiz (TÜİK + platform kullanım varsayımları).
 
 ---
 
@@ -86,7 +87,7 @@ Bu slayta TAM/SAM/SOM rakamlarını koyacağız ama önemli olan: dating’de de
 **Paketler:**
 - **Basic (ücretsiz):** 24 saat + sınırlı sorgu (pilot: 3/gün)
 - **Premium:** **49,90 TL/ay** (72 saat + yüksek/limitsiz sorgu)
-- **Yıllık plan:** avantajlı fiyat (ör: **399 TL/yıl** — kesinleştirilecek)
+- **Yıllık plan:** **449 TL/yıl** (≈ 37,4 TL/ay; ~%25 indirim)
 
 **DP ekonomisi (token yok):**
 - DP davranışı yönlendirir (Verified aksiyonlar, Ghost Mode)
@@ -153,7 +154,7 @@ Operasyonel ağ hendek olduğu için “ops liderliği” burada kilit rol.
 
 ## 12) Ask + Use of Funds
 
-**Yatırım talebi:** TBD
+**Yatırım talebi:** $250k–$500k (seed/angel)
 
 **Fon kullanımı (özet):**
 - %60 pazar hakimiyeti / dağıtım (density + partner ağ)
