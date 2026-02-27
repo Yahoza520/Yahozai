@@ -123,6 +123,10 @@ Aşağıdakiler yasaktır:
 - Kullanıcılar diğer kullanıcıları **engelleyebilir (block)** ve **şikayet edebilir (report)**.
 - Kötüye kullanım incelemelerinde hesap geçici veya kalıcı kapatılabilir.
 
+### 6.1 Hesap Silme
+- Kullanıcı, uygulama içinden hesap silme talebi iletebilir.
+- Hesap silme talebi alındıktan sonra veriler, güvenlik/uyuşmazlık yönetimi ve teknik süreçler nedeniyle **en geç 30 gün içinde** silinir veya anonim hale getirilir.
+
 ### 7. Ghost Mode ve DP
 - Ghost Mode, gizlilik aracı olarak DP karşılığında etkinleştirilebilir.
 - Kötüye kullanım şüphesi halinde Ghost Mode kısıtlanabilir veya devre dışı bırakılabilir.
