@@ -57,10 +57,12 @@
 
 > Pilot için amaç: hızlı kurulum + ölçüm. Ücretlendirme pilot sonrası netleşebilir.
 
-**Model seçenekleri:**
+**Seçilen model (pilot):**
 1. **Ücretsiz pilot** (8 hafta) → sonuçlara göre ücretli devam
-2. **Sabit pilot bedeli** (kurulum + raporlama)
-3. **Kampanya bedeli** (mekân içi teklif/menü + görünürlük)
+
+**Alternatifler (gerektiğinde):**
+2. Sabit pilot bedeli (kurulum + raporlama)
+3. Kampanya bedeli (mekân içi teklif/menü + görünürlük)
 
 ---
 
