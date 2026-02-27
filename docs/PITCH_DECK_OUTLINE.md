@@ -27,6 +27,10 @@ Bugün şehirde her gün binlerce temas oluyor ama sosyal sürtünme yüzünden 
 - Dating uygulamaları “kaydır‑geç” yorgunluğu + düşük sinyal.
 - Real‑time konum gösteren yaklaşımlar güvenlik riski doğuruyor.
 
+**1–2 kanıt (slayta küçük dipnot / konuşma notu):**
+- Regret araştırmalarında **romantizm** en sık bildirilen hayat pişmanlık alanlarından biri (Roese & Summerville, 2005; özet kaynak: PMC10481072).
+- İnsanlar “kaçırılan romantik fırsat”tan, reddedilmeden daha fazla pişmanlık bekler (Joel ve ark., *Nothing ventured, nothing gained*, 2017).
+
 **Konuşma notu:**
 Rakipler ya tamamen online (düşük doğruluk), ya da güvenli değil. Biz ikisinin arasındaki boşluğu dolduruyoruz.
 
