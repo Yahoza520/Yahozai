@@ -65,9 +65,14 @@
 **Seçilen model (pilot):**
 1. **Ücretsiz pilot** (8 hafta) → sonuçlara göre ücretli devam
 
-**Alternatifler (gerektiğinde):**
-2. Sabit pilot bedeli (kurulum + raporlama)
-3. Kampanya bedeli (mekân içi teklif/menü + görünürlük)
+**Pilot sonrası varsayılan devam modeli (Seçildi):**
+- **Aylık Sabit Paket:** **10.000–25.000 TL/ay**
+  - Spotted Zone sürekli aktif (QR + görünür alan)
+  - Haftalık anonim/aggregate özet rapor
+  - Ayda 1 “Spotted Night” aktivasyon desteği (kapsama göre)
+
+**Alternatif (gerektiğinde):**
+- Kampanya bazlı: 2 gece paket **15.000–25.000 TL** (kapsama göre)
 
 ---
 
