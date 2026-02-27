@@ -8,9 +8,9 @@
 ## A) KVKK Aydınlatma Metni (Taslak)
 
 ### 1. Veri Sorumlusu
-SPOTTED (DENK) uygulamasına ilişkin kişisel verileriniz, **[Şirket Unvanı / MERSİS]** (“Veri Sorumlusu”) tarafından, 6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) uyarınca işlenmektedir.
+SPOTTED (DENK) uygulamasına ilişkin kişisel verileriniz, **[Şirket Unvanı / MERSİS: TBD]** (“Veri Sorumlusu”) tarafından, 6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) uyarınca işlenmektedir.
 
-İletişim: **[adres]**, e‑posta: **[kvkk@...]**
+İletişim: **İstanbul**, e‑posta: **kvkk@spottedapp.com**
 
 ### 2. İşlenen Kişisel Veriler
 Hizmetin sunulması kapsamında aşağıdaki veri kategorileri işlenebilir:
@@ -61,7 +61,7 @@ Kesin süreler, “Saklama ve İmha Politikası”nda belirlenir.
 ### 7. KVKK Kapsamındaki Haklarınız
 KVKK madde 11 uyarınca; verilerinizin işlenip işlenmediğini öğrenme, düzeltilmesini isteme, silinmesini isteme, itiraz etme gibi haklara sahipsiniz.
 
-Başvurularınızı **[kvkk@...]** adresine iletebilirsiniz.
+Başvurularınızı **kvkk@spottedapp.com** adresine iletebilirsiniz.
 
 ---
 
@@ -138,7 +138,7 @@ Aşağıdakiler yasaktır:
 
 ### 11. Uyuşmazlık ve Uygulanacak Hukuk
 - Uyuşmazlıklarda Türkiye Cumhuriyeti hukuku uygulanır.
-- Yetkili mahkeme/merci: **[yer]**
+- Yetkili mahkeme/merci: **İstanbul**
 
 ---
 
