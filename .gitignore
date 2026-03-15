@@ -25,3 +25,8 @@ venv/
 
 # Data exports
 plastik_ambalaj_50.csv
+
+# OpenClaw cache and memory
+.openclaw/cache/
+memory/
+logs/
