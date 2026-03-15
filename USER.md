@@ -8,14 +8,18 @@ read_when:
 
 _Learn about the person you're helping. Update this as you go._
 
-- **Name:**
-- **What to call them:**
-- **Timezone:**
-- **Notes:**
+- **Name:** Yahoza
+- **What to call them:** Yahoza
+- **Timezone:** Europe/Istanbul
+- **Notes:** macOS iMac (Intel i5, Radeon Pro 580, 24GB RAM). Uses OpenClaw with Ollama (qwen2.5:3b) and Claude Haiku. Setting up Kimi/Moonshot as additional provider.
 
 ## Context
 
-_(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)_
+- Building **DENK** — a retrospective dating app for Istanbul (22-40 age group).
+- Currently in product strategy & documentation phase: PRD, legal (KVKK), monetization, partner venue templates all drafted.
+- Pilot planning stage — targeting afterwork cocktail bars in Istanbul (Fri-Sat, 18:00+).
+- Cares about getting things done efficiently. Prefers sharp, direct communication.
+- Tech stack exploration ongoing — evaluating LLM providers for the OpenClaw workspace.
 
 ---
 
