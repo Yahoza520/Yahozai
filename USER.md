@@ -11,7 +11,7 @@ _Learn about the person you're helping. Update this as you go._
 - **Name:** Yahoza
 - **What to call them:** Yahoza
 - **Timezone:** Europe/Istanbul
-- **Notes:** macOS iMac (Intel i5, Radeon Pro 580, 24GB RAM). Uses OpenClaw with Ollama (qwen2.5:3b) and Claude Haiku. Setting up Kimi/Moonshot as additional provider.
+- **Notes:** macOS iMac (Intel i5, Radeon Pro 580, 24GB RAM). Uses OpenClaw with Kimi K2.5 (primary), Claude Haiku, and Ollama (qwen2.5:3b) as fallbacks.
 
 ## Context
 
