@@ -17,6 +17,13 @@ class Settings(BaseSettings):
     PREMIUM_LOOKBACK_HOURS: int = 72
     BASIC_DAILY_QUERY_LIMIT: int = 3
 
+    # E-posta
+    SMTP_HOST: str = "smtp.gmail.com"
+    SMTP_PORT: int = 587
+    SMTP_USER: str = ""
+    SMTP_PASSWORD: str = ""
+    EMAIL_FROM: str = "DENK <noreply@denk.app>"
+
     model_config = {"env_file": ".env"}
 
 
