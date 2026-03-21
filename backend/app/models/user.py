@@ -26,6 +26,7 @@ class User(Base):
     denk_points: Mapped[int] = mapped_column(default=0)
     daily_query_count: Mapped[int] = mapped_column(default=0)
     daily_query_reset_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    gender: Mapped[str | None] = mapped_column(String, nullable=True)
     verification_code: Mapped[str | None] = mapped_column(String, nullable=True)
     verification_expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))

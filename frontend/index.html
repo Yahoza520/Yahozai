@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DENK — Geçmişte Kesiştiğin Kişileri Keşfet</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -65,6 +67,8 @@
     .btn-gold { background: linear-gradient(135deg, var(--gold), #e0a800); color: #1a1000; }
 
     .error-msg { background: rgba(252,92,92,0.08); border: 1px solid rgba(252,92,92,0.3); color: #ff8080; padding: 10px 14px; border-radius: 8px; font-size: 0.83rem; margin-bottom: 14px; display: none; }
+    .gender-btn { flex:1; padding:9px 4px; background:var(--surface2); border:1px solid var(--border2); border-radius:9px; color:var(--muted2); cursor:pointer; font-size:0.78rem; transition:all 0.2s; }
+    .gender-btn.selected { background:var(--accent); border-color:var(--accent); color:white; }
 
     /* ─── APP SHELL ─── */
     #app-screen { display: none; flex-direction: column; min-height: 100vh; }
@@ -278,6 +282,14 @@
         <div class="form-group"><label>E-posta</label><input id="reg-email" type="email" placeholder="ornek@mail.com" /></div>
         <div class="form-group"><label>Şifre</label><input id="reg-pass" type="password" placeholder="En az 8 karakter" /></div>
         <div class="form-group"><label>Doğum Yılı</label><input id="reg-year" type="number" placeholder="2000" min="1900" max="2006" /></div>
+        <div class="form-group">
+          <label>Cinsiyet</label>
+          <div style="display:flex;gap:8px">
+            <button type="button" class="gender-btn" data-val="kadin" onclick="selectGender(this)">👩 Kadın</button>
+            <button type="button" class="gender-btn" data-val="erkek" onclick="selectGender(this)">👨 Erkek</button>
+            <button type="button" class="gender-btn" data-val="belirtmiyorum" onclick="selectGender(this)">🤝 Belirtmiyorum</button>
+          </div>
+        </div>
         <button class="btn btn-primary" onclick="register()">Kayıt Ol (18+)</button>
       </div>
 
@@ -292,7 +304,8 @@
           <input id="verify-code" type="text" placeholder="000000" maxlength="6" style="font-size:1.5rem;letter-spacing:0.2em;text-align:center" onkeydown="if(event.key==='Enter')verifyEmail()" />
         </div>
         <button class="btn btn-primary" style="margin-bottom:10px" onclick="verifyEmail()">Doğrula →</button>
-        <button class="btn btn-ghost" onclick="resendCode()">Kodu tekrar gönder</button>
+        <button class="btn btn-ghost" style="margin-bottom:8px" onclick="resendCode()">Kodu tekrar gönder</button>
+        <button class="btn btn-ghost" style="font-size:0.8rem;color:var(--muted2)" onclick="switchTab('register')">← Geri dön</button>
       </div>
     </div>
   </div>
@@ -319,21 +332,24 @@
 
       <div class="scenario-card">
         <h3>📍 Kadıköy Senaryosu</h3>
-        <p>Cuma akşamı <strong>Moda Sahili</strong>'nde yürüdün, ardından <strong>Kadife Sokak</strong>'ta bir bara girdin. O gece karşındaki masada oturan biri de DENK kullanıyorsa — <strong>birbirinizi kaçırmış olmayabilirsiniz.</strong></p>
+        <p>Cuma akşamı <strong>Boğa Heykeli</strong>'nde buluştun, ardından <strong>Dörtyol</strong>'dan geçip <strong>Kadife Sokak</strong>'ta bir bara girdin. O gece aynı güzergâhta olan biri de DENK kullanıyorsa — <strong>birbirinizi kaçırmış olmayabilirsiniz.</strong></p>
       </div>
 
       <div class="loc-panel">
-        <h4>Konum Seç</h4>
-        <div class="loc-presets">
-          <button class="preset-btn" onclick="setPreset(40.9876, 29.0289, this)">☕ Moda Kafe</button>
-          <button class="preset-btn" onclick="setPreset(40.9901, 29.0225, this)">🎵 Kadife Sokak</button>
-          <button class="preset-btn" onclick="setPreset(40.9912, 29.0303, this)">🌊 Sahil Yürüyüşü</button>
-          <button class="preset-btn" onclick="setPreset(41.0082, 28.9784, this)">🚆 Kadıköy İskele</button>
+        <h4>📍 Konum Seç — Kadıköy</h4>
+        <p style="font-size:0.75rem;color:var(--muted2);margin-bottom:10px">Haritadan bir nokta seç veya pinlere tıkla</p>
+        <div id="kadikoy-map" style="height:260px;border-radius:12px;overflow:hidden;margin-bottom:12px;border:1px solid var(--border2)"></div>
+        <div id="selected-pin" style="display:none;background:rgba(124,92,252,0.1);border:1px solid rgba(124,92,252,0.3);border-radius:8px;padding:8px 12px;font-size:0.82rem;margin-bottom:10px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:1rem" id="pin-icon">📍</span>
+          <span id="pin-name" style="font-weight:500"></span>
+          <span id="pin-desc" style="color:var(--muted2);font-size:0.75rem"></span>
         </div>
-        <div class="coords-row">
-          <div class="form-group"><label>Enlem</label><input id="lat" type="number" step="0.0001" placeholder="40.9876" /></div>
-          <div class="form-group"><label>Boylam</label><input id="lon" type="number" step="0.0001" placeholder="29.0289" /></div>
+        <div class="form-group" style="margin-bottom:10px">
+          <label>Ne yapıyordun? <span style="font-weight:400;color:var(--muted)">(isteğe bağlı)</span></label>
+          <input id="loc-note" type="text" placeholder="Örn: kahve içiyordum, arkadaşımı bekliyordum…" maxlength="100" />
         </div>
+        <input type="hidden" id="lat" />
+        <input type="hidden" id="lon" />
         <div class="btn-row">
           <button class="btn btn-ghost" onclick="recordLocation()">📌 Konum Kaydet</button>
           <button class="btn btn-primary" onclick="loadCandidates()">Adayları Getir →</button>
@@ -673,29 +689,53 @@ let token = localStorage.getItem('denk_token');
 let currentUser = JSON.parse(localStorage.getItem('denk_user') || 'null');
 let currentMatchId = null, currentMatchName = null, ws = null;
 let pendingQRVenue = null;
+let selectedGender = null;
+let map = null, selectedLat = null, selectedLon = null;
 
-if (token && currentUser) showApp();
+// ── Kadıköy Pinleri ──
+const KADIKOY_PINS = [
+  { name:'Boğa Heykeli', icon:'🐂', desc:'Kadıköy\'nin kalbi', lat:40.9905, lon:29.0267 },
+  { name:'Dörtyol', icon:'🔀', desc:'Merkez kavşak', lat:40.9894, lon:29.0262 },
+  { name:'Kadife Sokak', icon:'🎵', desc:'Bar & müzik sokağı', lat:40.9875, lon:29.0258 },
+  { name:'Moda Sahili', icon:'🌊', desc:'Sahil yürüyüş yolu', lat:40.9848, lon:29.0365 },
+  { name:'Kadıköy İskele', icon:'⛴️', desc:'Vapur iskelesi', lat:40.9960, lon:29.0207 },
+  { name:'Moda Kafe', icon:'☕', desc:'Moda Caddesi', lat:40.9876, lon:29.0289 },
+  { name:'Tarihi Çarşı', icon:'🛍️', desc:'Çarşı & pazar', lat:40.9901, lon:29.0239 },
+  { name:'Haydarpaşa Garı', icon:'🚂', desc:'Tarihi tren garı', lat:40.9996, lon:29.0224 },
+  { name:'Özgürlük Parkı', icon:'🌳', desc:'Yeşil alan & piknik', lat:40.9929, lon:29.0223 },
+  { name:'Yeldeğirmeni', icon:'🏘️', desc:'Sanat & kafe sokakları', lat:40.9944, lon:29.0339 },
+];
+
+if (token && currentUser) { showApp(); setTimeout(initMap, 300); }
 
 // ═══ AUTH ═══
 let pendingVerifyEmail = '';
+
+function selectGender(btn) {
+  document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedGender = btn.dataset.val;
+}
 
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', (tab==='login'&&i===0)||(tab==='register'&&i===1)));
   document.getElementById('login-form').style.display = tab==='login' ? 'block' : 'none';
   document.getElementById('register-form').style.display = tab==='register' ? 'block' : 'none';
   document.getElementById('verify-form').style.display = 'none';
+  document.querySelector('.tabs').style.display = 'flex';
   document.getElementById('auth-error').style.display = 'none';
 }
 
 function showVerifyScreen(email) {
   pendingVerifyEmail = email;
+  document.querySelector('.tabs').style.display = 'none';
   document.getElementById('login-form').style.display = 'none';
   document.getElementById('register-form').style.display = 'none';
   document.getElementById('verify-form').style.display = 'block';
   document.getElementById('verify-desc').textContent = `${email} adresine 6 haneli kod gönderdik.`;
   document.getElementById('verify-code').value = '';
-  document.getElementById('verify-code').focus();
   document.getElementById('auth-error').style.display = 'none';
+  setTimeout(() => document.getElementById('verify-code').focus(), 100);
 }
 
 function showAuthError(msg) {
@@ -728,13 +768,19 @@ async function register() {
   if (password.length < 8) return showAuthError('Şifre en az 8 karakter olmalı');
   if (isNaN(birth_year)) return showAuthError('Doğum yılını gir (örn: 2000)');
   if (2026 - birth_year < 18) return showAuthError('18 yaşından küçükler kayıt olamaz');
-  const res = await fetch(`${API}/auth/register`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name,email,password,birth_year}) });
-  const data = await res.json();
-  if (!res.ok) {
-    if (Array.isArray(data.detail)) return showAuthError(data.detail.map(e=>e.msg.split(':')[0]).join(', '));
-    return showAuthError(data.detail || 'Kayıt başarısız');
+  try {
+    const res = await fetch(`${API}/auth/register`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name,email,password,birth_year,gender:selectedGender}) });
+    const data = await res.json();
+    if (!res.ok) {
+      if (Array.isArray(data.detail)) return showAuthError(data.detail.map(e=>e.msg.split(':')[0]).join(', '));
+      return showAuthError(data.detail || 'Kayıt başarısız');
+    }
+    if (data.needs_verification) {
+      showVerifyScreen(email);
+    }
+  } catch(e) {
+    showAuthError('Sunucuya bağlanılamadı. API çalışıyor mu?');
   }
-  if (data.needs_verification) showVerifyScreen(email);
 }
 
 async function verifyEmail() {
@@ -771,6 +817,7 @@ function showApp() {
   document.getElementById('auth-screen').style.display = 'none';
   document.getElementById('app-screen').style.display = 'flex';
   updateTopbar();
+  setTimeout(initMap, 400);
 }
 
 function updateTopbar() {
@@ -792,19 +839,49 @@ function showPage(pageId, btn) {
 
 function switchToDP() { showPage('dp-page', document.getElementById('nav-dp')); loadDP(); }
 
-// ═══ LOCATION ═══
-function setPreset(lat, lon, btn) {
-  document.getElementById('lat').value = lat;
-  document.getElementById('lon').value = lon;
-  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+// ═══ HARİTA ═══
+function initMap() {
+  if (map) return;
+  const el = document.getElementById('kadikoy-map');
+  if (!el) return;
+  map = L.map('kadikoy-map', { zoomControl: true, attributionControl: false }).setView([40.9905, 29.0267], 15);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
+
+  KADIKOY_PINS.forEach(pin => {
+    const icon = L.divIcon({
+      html: `<div style="background:#12121e;border:2px solid #7c5cfc;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 2px 10px rgba(124,92,252,0.4);cursor:pointer">${pin.icon}</div>`,
+      className: '', iconSize: [36, 36], iconAnchor: [18, 18]
+    });
+    const marker = L.marker([pin.lat, pin.lon], { icon }).addTo(map);
+    marker.bindTooltip(`<b>${pin.name}</b><br><span style='color:#9090c0;font-size:0.75rem'>${pin.desc}</span>`, { direction:'top', offset:[0,-20] });
+    marker.on('click', () => selectPin(pin));
+  });
+
+  // Haritaya tıklayınca da seç
+  map.on('click', e => {
+    selectPin({ name:'Özel Konum', icon:'📍', desc:`${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}`, lat: e.latlng.lat, lon: e.latlng.lng });
+  });
 }
 
+function selectPin(pin) {
+  selectedLat = pin.lat;
+  selectedLon = pin.lon;
+  document.getElementById('lat').value = pin.lat;
+  document.getElementById('lon').value = pin.lon;
+  const el = document.getElementById('selected-pin');
+  el.style.display = 'flex';
+  document.getElementById('pin-icon').textContent = pin.icon;
+  document.getElementById('pin-name').textContent = pin.name;
+  document.getElementById('pin-desc').textContent = pin.desc;
+}
+
+// ═══ LOCATION ═══
 async function recordLocation() {
   const lat = parseFloat(document.getElementById('lat').value);
   const lon = parseFloat(document.getElementById('lon').value);
-  if (isNaN(lat) || isNaN(lon)) return toast('Koordinat seç veya gir');
-  const res = await api('POST', '/location/event', { latitude:lat, longitude:lon, recorded_at: new Date().toISOString() });
+  const note = document.getElementById('loc-note')?.value?.trim() || null;
+  if (isNaN(lat) || isNaN(lon)) return toast('Haritadan bir nokta seç');
+  const res = await api('POST', '/location/event', { latitude:lat, longitude:lon, recorded_at: new Date().toISOString(), note });
   toast(res.message || '📌 Konum kaydedildi');
 }
 

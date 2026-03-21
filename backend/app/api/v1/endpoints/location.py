@@ -39,6 +39,7 @@ async def record_location(
         latitude=body.latitude,
         longitude=body.longitude,
         recorded_at=body.recorded_at,
+        note=body.note,
     )
     db.add(event)
     await db.commit()

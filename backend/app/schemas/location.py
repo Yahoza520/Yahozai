@@ -6,6 +6,7 @@ class LocationEventCreate(BaseModel):
     latitude: float
     longitude: float
     recorded_at: datetime
+    note: str | None = None
 
     @field_validator("latitude")
     @classmethod

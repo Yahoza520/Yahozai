@@ -7,6 +7,7 @@ class UserRegister(BaseModel):
     password: str
     name: str
     birth_year: int
+    gender: str | None = None
 
     @field_validator("birth_year")
     @classmethod
@@ -35,6 +36,7 @@ class UserOut(BaseModel):
     email: str
     name: str
     plan: str
+    gender: str | None
     denk_points: int
     created_at: datetime
 

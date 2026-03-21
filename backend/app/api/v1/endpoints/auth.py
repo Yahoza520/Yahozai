@@ -62,6 +62,7 @@ async def register(body: UserRegister, background_tasks: BackgroundTasks, db: As
         hashed_password=hash_password(body.password),
         name=body.name,
         birth_year=body.birth_year,
+        gender=body.gender,
         is_verified=False,
         verification_code=code,
         verification_expires_at=expires,
