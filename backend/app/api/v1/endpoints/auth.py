@@ -1,7 +1,9 @@
 import random
 import string
 from datetime import datetime, timezone, timedelta
-from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, Request, status, BackgroundTasks
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.core.database import get_db
@@ -10,6 +12,8 @@ from app.core.config import settings
 from app.models.user import User
 from app.schemas.user import UserRegister, UserLogin, UserOut, TokenOut
 from pydantic import BaseModel
+
+limiter = Limiter(key_func=get_remote_address)
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -36,7 +40,8 @@ class ResendRequest(BaseModel):
 
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
-async def register(body: UserRegister, background_tasks: BackgroundTasks, db: AsyncSession = Depends(get_db)):
+@limiter.limit("5/minute")
+async def register(request: Request, body: UserRegister, background_tasks: BackgroundTasks, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(User).where(User.email == body.email))
     existing = result.scalar_one_or_none()
 
@@ -50,6 +55,7 @@ async def register(body: UserRegister, background_tasks: BackgroundTasks, db: As
         existing.hashed_password = hash_password(body.password)
         existing.name = body.name
         existing.birth_year = body.birth_year
+        existing.terms_accepted_at = datetime.now(timezone.utc)
         await db.commit()
         await _send_code(existing, background_tasks)
         return {"message": "Doğrulama kodu gönderildi", "email": body.email, "needs_verification": True}
@@ -66,6 +72,7 @@ async def register(body: UserRegister, background_tasks: BackgroundTasks, db: As
         is_verified=False,
         verification_code=code,
         verification_expires_at=expires,
+        terms_accepted_at=datetime.now(timezone.utc),
     )
     db.add(user)
     await db.commit()
@@ -100,7 +107,8 @@ async def verify_email(body: VerifyRequest, db: AsyncSession = Depends(get_db)):
 
 
 @router.post("/resend-code")
-async def resend_code(body: ResendRequest, background_tasks: BackgroundTasks, db: AsyncSession = Depends(get_db)):
+@limiter.limit("3/minute")
+async def resend_code(request: Request, body: ResendRequest, background_tasks: BackgroundTasks, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(User).where(User.email == body.email))
     user = result.scalar_one_or_none()
 
@@ -116,7 +124,8 @@ async def resend_code(body: ResendRequest, background_tasks: BackgroundTasks, db
 
 
 @router.post("/login", response_model=TokenOut)
-async def login(body: UserLogin, db: AsyncSession = Depends(get_db)):
+@limiter.limit("10/minute")
+async def login(request: Request, body: UserLogin, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(User).where(User.email == body.email))
     user = result.scalar_one_or_none()
 

@@ -1,0 +1,31 @@
+[Unit]
+Description=DENK API Server
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=denk
+Group=denk
+WorkingDirectory=/opt/denk/backend
+Environment=PATH=/opt/denk/backend/venv/bin
+ExecStart=/opt/denk/backend/venv/bin/uvicorn app.main:app \
+    --host 127.0.0.1 \
+    --port 8000 \
+    --workers 2 \
+    --log-level warning \
+    --no-access-log
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+# Güvenlik
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/opt/denk/backend
+
+[Install]
+WantedBy=multi-user.target

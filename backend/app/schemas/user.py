@@ -8,6 +8,7 @@ class UserRegister(BaseModel):
     name: str
     birth_year: int
     gender: str | None = None
+    terms_accepted: bool
 
     @field_validator("birth_year")
     @classmethod
@@ -23,6 +24,13 @@ class UserRegister(BaseModel):
     def password_min_length(cls, v: str) -> str:
         if len(v) < 8:
             raise ValueError("Şifre en az 8 karakter olmalı")
+        return v
+
+    @field_validator("terms_accepted")
+    @classmethod
+    def must_accept_terms(cls, v: bool) -> bool:
+        if not v:
+            raise ValueError("Kullanım koşulları ve KVKK metnini kabul etmelisiniz")
         return v
 
 
