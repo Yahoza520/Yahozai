@@ -253,6 +253,36 @@
     .divider { height: 1px; background: var(--border); margin: 20px 0; }
     .info-box { background: rgba(124,92,252,0.06); border: 1px solid rgba(124,92,252,0.2); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 12px; font-size: 0.8rem; color: var(--muted2); line-height: 1.5; }
     .info-box strong { color: var(--text); }
+
+    /* ─── LEGAL MODAL ─── */
+    .legal-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 200; display: none; align-items: flex-end; justify-content: center; padding: 0; backdrop-filter: blur(6px); }
+    .legal-modal-overlay.open { display: flex; }
+    .legal-sheet { background: var(--surface); border: 1px solid var(--border2); border-radius: 20px 20px 0 0; max-width: 620px; width: 100%; max-height: 85vh; display: flex; flex-direction: column; }
+    .legal-sheet-header { padding: 20px 24px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .legal-sheet-header h2 { font-size: 1rem; font-weight: 700; }
+    .legal-close { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border2); background: var(--surface2); color: var(--text); cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+    .legal-body { flex: 1; overflow-y: auto; padding: 20px 24px; font-size: 0.82rem; color: var(--muted2); line-height: 1.7; }
+    .legal-body h3 { font-size: 0.88rem; font-weight: 700; color: var(--text); margin: 18px 0 6px; }
+    .legal-body h3:first-child { margin-top: 0; }
+    .legal-body p { margin-bottom: 10px; }
+    .legal-body ul { padding-left: 16px; margin-bottom: 10px; }
+    .legal-body li { margin-bottom: 4px; }
+
+    /* ─── CHECKBOX ─── */
+    .check-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; cursor: pointer; }
+    .check-row input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--accent); margin-top: 1px; flex-shrink: 0; cursor: pointer; }
+    .check-row span { font-size: 0.8rem; color: var(--muted2); line-height: 1.45; }
+    .check-row a { color: var(--accent); text-decoration: underline; cursor: pointer; }
+
+    /* ─── PREMIUM MODAL ─── */
+    .premium-sheet { background: var(--surface); border: 1px solid var(--border2); border-radius: 20px 20px 0 0; max-width: 620px; width: 100%; padding: 28px 24px 32px; }
+    .premium-sheet h2 { font-size: 1.1rem; font-weight: 800; margin-bottom: 8px; text-align: center; }
+    .premium-sheet .ps-sub { font-size: 0.83rem; color: var(--muted2); text-align: center; margin-bottom: 20px; line-height: 1.5; }
+
+    /* ─── AUTH FOOTER ─── */
+    .auth-footer { text-align: center; margin-top: 20px; font-size: 0.72rem; color: var(--muted); }
+    .auth-footer a { color: var(--muted2); text-decoration: underline; cursor: pointer; }
+    .auth-footer a:hover { color: var(--text); }
   </style>
 </head>
 <body>
@@ -290,6 +320,16 @@
             <button type="button" class="gender-btn" data-val="belirtmiyorum" onclick="selectGender(this)">🤝 Belirtmiyorum</button>
           </div>
         </div>
+        <div style="margin-bottom:14px">
+          <label class="check-row">
+            <input type="checkbox" id="check-terms" />
+            <span><a onclick="openLegal('terms')">Kullanım Koşulları</a>'nı okudum ve kabul ediyorum.</span>
+          </label>
+          <label class="check-row">
+            <input type="checkbox" id="check-kvkk" />
+            <span><a onclick="openLegal('kvkk')">KVKK Aydınlatma Metni</a>'ni okudum, kişisel verilerimin işlenmesine onay veriyorum.</span>
+          </label>
+        </div>
         <button class="btn btn-primary" onclick="register()">Kayıt Ol (18+)</button>
       </div>
 
@@ -307,6 +347,10 @@
         <button class="btn btn-ghost" style="margin-bottom:8px" onclick="resendCode()">Kodu tekrar gönder</button>
         <button class="btn btn-ghost" style="font-size:0.8rem;color:var(--muted2)" onclick="switchTab('register')">← Geri dön</button>
       </div>
+    </div>
+    <div class="auth-footer">
+      <a onclick="openLegal('kvkk')">Gizlilik & KVKK</a> · <a onclick="openLegal('terms')">Kullanım Koşulları</a><br>
+      © 2025 DENK · v1.0.0
     </div>
   </div>
 </div>
@@ -377,7 +421,7 @@
               <div class="plan-price" style="color:var(--accent2)">30 ₺/ay</div>
             </div>
           </div>
-          <button class="btn btn-primary" style="background:linear-gradient(135deg,var(--accent2),#d43f6a)" onclick="toast('Ödeme sistemi yakında!')">Premium'a Geç — 30 ₺/ay</button>
+          <button class="btn btn-primary" style="background:linear-gradient(135deg,var(--accent2),#d43f6a)" onclick="openPremiumModal()">Premium'a Geç — 30 ₺/ay</button>
         </div>
       </div>
     </div>
@@ -565,7 +609,7 @@
               <h3>⏳ Time Travel Uzat</h3>
               <div class="dp-cost">150 DP</div>
             </div>
-            <button class="btn btn-ghost" style="width:auto;padding:8px 14px;font-size:0.82rem" onclick="toast('Yakında: 72→120 saat uzatma!')">Kullan</button>
+            <button class="btn btn-ghost" style="width:auto;padding:8px 14px;font-size:0.82rem" onclick="toast('✦ Bu özellik çok yakında geliyor!')">Kullan</button>
           </div>
           <p>Basic kullanıcılar için 24 saati 120 saate çıkar. Premium olmadan derinlemesine gör.</p>
           <div class="info-box" style="margin:0;font-size:0.76rem">⚡ Limit: Haftada 2 kez</div>
@@ -591,7 +635,7 @@
             <div class="plan-price" style="color:var(--accent2)">30 ₺/ay</div>
           </div>
         </div>
-        <button class="btn btn-primary" style="background:linear-gradient(135deg,var(--accent2),#c0305a)" onclick="toast('Ödeme sistemi yakında!')">Premium'a Geç — 30 ₺/ay</button>
+        <button class="btn btn-primary" style="background:linear-gradient(135deg,var(--accent2),#c0305a)" onclick="openPremiumModal()">Premium'a Geç — 30 ₺/ay</button>
       </div>
     </div>
 
@@ -631,18 +675,15 @@
       </div>
       <div style="margin-top:16px">
         <button class="btn btn-danger" onclick="logout()">Çıkış Yap</button>
+      </div>
 
       <div class="divider"></div>
-      <div style="background:rgba(245,200,66,0.06);border:1px dashed rgba(245,200,66,0.3);border-radius:var(--radius);padding:16px;margin-top:4px">
-        <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);font-weight:700;margin-bottom:12px">🧪 Test / Geliştirici Modu</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <button class="btn btn-ghost" style="font-size:0.78rem;padding:9px" onclick="debugAddTestUser()">👥 Yakına Kullanıcı Ekle</button>
-          <button class="btn btn-ghost" style="font-size:0.78rem;padding:9px" onclick="debugResetLimits()">🔄 Limiti Sıfırla</button>
-          <button class="btn btn-ghost" style="font-size:0.78rem;padding:9px" onclick="debugAddDP()">✦ +200 DP Ekle</button>
-          <button class="btn btn-ghost" style="font-size:0.78rem;padding:9px" onclick="debugMakePremium()">👑 Premium Yap</button>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:0.78rem;text-align:center;color:var(--muted2)">
+        <div>
+          <span class="setting-action" onclick="openLegal('kvkk')" style="margin-right:16px">Gizlilik & KVKK</span>
+          <span class="setting-action" onclick="openLegal('terms')">Kullanım Koşulları</span>
         </div>
-        <div id="debug-output" style="margin-top:10px;font-size:0.75rem;color:var(--muted2);min-height:18px"></div>
-      </div>
+        <div style="color:var(--muted);font-size:0.72rem">DENK v1.0.0 · © 2025 Tüm hakları saklıdır.</div>
       </div>
     </div>
 
@@ -668,6 +709,50 @@
   </nav>
 </div>
 
+<!-- ── KVKK MODAL ── -->
+<div class="legal-modal-overlay" id="legal-modal">
+  <div class="legal-sheet">
+    <div class="legal-sheet-header">
+      <h2 id="legal-title">—</h2>
+      <button class="legal-close" onclick="closeLegal()">✕</button>
+    </div>
+    <div class="legal-body" id="legal-content"></div>
+  </div>
+</div>
+
+<!-- ── PREMIUM MODAL ── -->
+<div class="legal-modal-overlay" id="premium-modal">
+  <div class="premium-sheet">
+    <h2>👑 Premium'a Geç</h2>
+    <p class="ps-sub">Son 72 saati tara, limitsiz sorgu yap ve Spotted Zone avantajlarını kullan.</p>
+    <div class="paywall-compare" style="margin-bottom:16px">
+      <div class="plan-box">
+        <div class="plan-name">Basic</div>
+        <div class="plan-feat">Son 24 saat</div>
+        <div class="plan-feat">3 sorgu/gün</div>
+        <div class="plan-price">Ücretsiz</div>
+      </div>
+      <div class="plan-box highlight">
+        <div class="plan-name" style="color:var(--accent2)">Premium</div>
+        <div class="plan-feat">Son 72 saat</div>
+        <div class="plan-feat">Limitsiz sorgu</div>
+        <div class="plan-price" style="color:var(--accent2)">30 ₺/ay</div>
+      </div>
+    </div>
+    <div id="iyzico-form-wrap" style="display:none;margin-bottom:16px"></div>
+    <div id="premium-error" class="error-msg" style="margin-bottom:12px"></div>
+    <div id="premium-actions" style="display:flex;gap:10px">
+      <button class="btn btn-ghost" style="flex:1" onclick="closePremiumModal()">Şimdi Değil</button>
+      <button class="btn btn-primary" id="pay-btn" style="flex:1;background:linear-gradient(135deg,var(--accent2),#c0305a)" onclick="startPayment()">
+        Ödeme Yap — 30 ₺
+      </button>
+    </div>
+    <p style="font-size:0.7rem;color:var(--muted);text-align:center;margin-top:10px">
+      Iyzico güvenceli ödeme · SSL şifreli · İptal istediğinde
+    </p>
+  </div>
+</div>
+
 <!-- ── QR MODAL ── -->
 <div class="modal-overlay" id="qr-modal">
   <div class="modal">
@@ -684,7 +769,10 @@
 <div id="toast"></div>
 
 <script>
-const API = 'http://localhost:8000/api/v1';
+// ─── API URL ─── Üretim için bu satırı değiştir: 'https://api.denk.app/api/v1'
+const API = 'http://187.77.95.109/api/v1';
+const WS_BASE = API.replace(/^http/, 'ws');
+
 let token = localStorage.getItem('denk_token');
 let currentUser = JSON.parse(localStorage.getItem('denk_user') || 'null');
 let currentMatchId = null, currentMatchName = null, ws = null;
@@ -763,13 +851,17 @@ async function register() {
   const email = document.getElementById('reg-email').value.trim();
   const password = document.getElementById('reg-pass').value;
   const birth_year = parseInt(document.getElementById('reg-year').value);
+  const termsOk = document.getElementById('check-terms')?.checked;
+  const kvkkOk = document.getElementById('check-kvkk')?.checked;
   if (!name || !email || !password) return showAuthError('Tüm alanları doldur');
   if (!email.includes('@') || !email.includes('.')) return showAuthError('Geçerli bir e-posta adresi gir');
   if (password.length < 8) return showAuthError('Şifre en az 8 karakter olmalı');
   if (isNaN(birth_year)) return showAuthError('Doğum yılını gir (örn: 2000)');
   if (2026 - birth_year < 18) return showAuthError('18 yaşından küçükler kayıt olamaz');
+  if (!termsOk) return showAuthError('Kullanım Koşulları\'nı kabul etmelisiniz');
+  if (!kvkkOk) return showAuthError('KVKK Aydınlatma Metni\'ni kabul etmelisiniz');
   try {
-    const res = await fetch(`${API}/auth/register`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name,email,password,birth_year,gender:selectedGender}) });
+    const res = await fetch(`${API}/auth/register`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name,email,password,birth_year,gender:selectedGender,terms_accepted:true}) });
     const data = await res.json();
     if (!res.ok) {
       if (Array.isArray(data.detail)) return showAuthError(data.detail.map(e=>e.msg.split(':')[0]).join(', '));
@@ -1009,7 +1101,7 @@ function appendMsg(m) {
 
 function connectWS() {
   if (ws) ws.close();
-  ws = new WebSocket(`ws://localhost:8000/api/v1/chat/ws/${currentMatchId}?token=${token}`);
+  ws = new WebSocket(`${WS_BASE}/chat/ws/${currentMatchId}?token=${token}`);
   ws.onmessage = e => { const m = JSON.parse(e.data); appendMsg(m); };
   ws.onerror = () => {};
 }
@@ -1108,43 +1200,138 @@ function toast(msg) {
   setTimeout(() => el.classList.remove('show'), 2800);
 }
 
-// ═══ DEBUG ═══
-function debugOut(msg) {
-  const el = document.getElementById('debug-output');
-  if (el) el.textContent = msg;
-  toast(msg);
+// ═══ LEGAL ═══
+const LEGAL_CONTENT = {
+  kvkk: {
+    title: 'Gizlilik & KVKK Aydınlatma Metni',
+    html: `
+      <h3>1. Veri Sorumlusu</h3>
+      <p>DENK uygulaması kapsamında kişisel verileriniz, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca <strong>DENK</strong> tarafından işlenmektedir.</p>
+      <h3>2. İşlenen Kişisel Veriler</h3>
+      <ul>
+        <li><strong>Kimlik:</strong> Ad-soyad, doğum yılı, cinsiyet</li>
+        <li><strong>İletişim:</strong> E-posta adresi</li>
+        <li><strong>Konum:</strong> Kullanıcının onayladığı anlık konum verileri (harita pinleri veya QR tarama anında)</li>
+        <li><strong>Kullanım:</strong> Uygulama içi etkileşimler, eşleşme ve mesaj kayıtları</li>
+      </ul>
+      <h3>3. Verilerin İşlenme Amaçları</h3>
+      <ul>
+        <li>Hizmetin sunulması (geçmiş konum kesişimlerinin hesaplanması)</li>
+        <li>Kullanıcı güvenliğinin ve kimlik doğrulamasının sağlanması</li>
+        <li>Yasal yükümlülüklerin yerine getirilmesi</li>
+        <li>Hizmet geliştirme ve analizler (anonimleştirilmiş verilerle)</li>
+      </ul>
+      <h3>4. Konum Verisi Hakkında Önemli Bilgi</h3>
+      <p>DENK <strong>gerçek zamanlı konum izleme yapmaz.</strong> Konum verisi yalnızca kullanıcının "Konum Kaydet" butonuna bastığı veya QR taradığı anlarda, kullanıcının açık onayıyla sisteme kaydedilir. Kayıt tarihinden itibaren en fazla <strong>72 saat</strong> saklanır ve ardından anonimleştirilir.</p>
+      <h3>5. Verilerin Paylaşımı</h3>
+      <p>Kişisel verileriniz; yasal zorunluluklar dışında üçüncü taraflarla satılmaz, kiralanmaz veya ticari amaçla paylaşılmaz. E-posta doğrulama için Gmail SMTP altyapısı kullanılmaktadır.</p>
+      <h3>6. Saklama Süresi</h3>
+      <p>Hesap verileri hesap silme talebine dek; konum olay verileri 72 saat; mesajlar eşleşme silindiğinde; doğrulama kodları 10 dakika sonra silinir.</p>
+      <h3>7. Haklarınız (KVKK Madde 11)</h3>
+      <ul>
+        <li>Verilerinizin işlenip işlenmediğini öğrenme</li>
+        <li>İşlenen verilere ilişkin bilgi talep etme</li>
+        <li>Verilerin düzeltilmesini veya silinmesini isteme</li>
+        <li>İşlemeye itiraz etme</li>
+      </ul>
+      <p>Talepler için: <strong>privacy@denk.app</strong></p>
+      <h3>8. Güvenlik</h3>
+      <p>Şifreler bcrypt ile hashlenerek saklanır. Tüm API iletişimi HTTPS üzerinden gerçekleşir. JWT token süresi 7 gündür.</p>
+    `
+  },
+  terms: {
+    title: 'Kullanım Koşulları',
+    html: `
+      <h3>1. Hizmet Tanımı</h3>
+      <p>DENK, kullanıcıların geçmişte aynı mekânda bulunduklarını keşfetmelerine olanak tanıyan, Türkiye merkezli bir sosyal keşif uygulamasıdır. Hizmet şu an <strong>İstanbul / Kadıköy bölgesinde pilot aşamadadır.</strong></p>
+      <h3>2. Kullanım Şartları</h3>
+      <ul>
+        <li>Uygulamayı kullanmak için <strong>18 yaşını doldurmuş</strong> olmanız zorunludur.</li>
+        <li>Gerçek kimlik bilgilerinizle kayıt olmanız gerekir; sahte profil oluşturmak yasaktır.</li>
+        <li>Diğer kullanıcılara taciz, tehdit veya uygunsuz içerik iletmek kesinlikle yasaktır.</li>
+        <li>Uygulamayı spam, otomatik içerik veya ticari amaçlarla kullanamazsınız.</li>
+      </ul>
+      <h3>3. Konum Verisi ve Gizlilik</h3>
+      <p>Konum verisi yalnızca kullanıcının açık onayıyla kaydedilir. Gerçek zamanlı konum takibi yapılmaz. Ayrıntılar için KVKK metnine bakınız.</p>
+      <h3>4. Hesap Güvenliği</h3>
+      <p>Hesabınızın güvenliğinden siz sorumlusunuz. Şüpheli bir durum fark ederseniz derhal bize bildirin: <strong>support@denk.app</strong></p>
+      <h3>5. Fikri Mülkiyet</h3>
+      <p>DENK markası, logosu, tasarımı ve yazılımı tüm haklarıyla saklıdır. İzinsiz kopyalanamaz, dağıtılamaz veya ticari amaçla kullanılamaz.</p>
+      <h3>6. Sorumluluk Sınırı</h3>
+      <p>DENK, kullanıcılar arasındaki etkileşimlerden doğan zararlardan sorumlu tutulamaz. Platform yalnızca bir keşif aracıdır; buluşma, iletişim ve ilişki kararları tamamen kullanıcıya aittir.</p>
+      <h3>7. Hizmet Değişiklikleri</h3>
+      <p>DENK, hizmet şartlarını önceden bildirmeksizin değiştirebilir. Önemli değişiklikler e-posta ile bildirilecektir.</p>
+      <h3>8. Uygulanacak Hukuk</h3>
+      <p>Bu sözleşme Türkiye Cumhuriyeti hukuku kapsamında değerlendirilecek olup İstanbul mahkemeleri yetkilidir.</p>
+      <h3>9. İletişim</h3>
+      <p>Her türlü soru, şikayet veya talep için: <strong>support@denk.app</strong></p>
+    `
+  }
+};
+
+function openLegal(type) {
+  const content = LEGAL_CONTENT[type];
+  if (!content) return;
+  document.getElementById('legal-title').textContent = content.title;
+  document.getElementById('legal-content').innerHTML = content.html;
+  document.getElementById('legal-modal').classList.add('open');
 }
 
-async function debugAddTestUser() {
-  debugOut('⏳ Test kullanıcısı ekleniyor...');
-  const res = await api('POST', '/debug/add-test-user');
-  if (res.message) debugOut('✓ ' + res.message + ' — şimdi Adayları Getir!');
-  else debugOut(res.detail || 'Önce bir konum kaydet');
+function closeLegal() {
+  document.getElementById('legal-modal').classList.remove('open');
 }
 
-async function debugResetLimits() {
-  const res = await api('POST', '/debug/reset-limits');
-  debugOut(res.message ? '✓ ' + res.message : (res.detail || 'Hata'));
+function openPremiumModal() {
+  document.getElementById('premium-modal').classList.add('open');
+  document.getElementById('iyzico-form-wrap').style.display = 'none';
+  document.getElementById('iyzico-form-wrap').innerHTML = '';
+  document.getElementById('premium-error').style.display = 'none';
+  document.getElementById('premium-actions').style.display = 'flex';
 }
 
-async function debugAddDP() {
-  const res = await api('POST', '/debug/add-dp?amount=200');
-  if (res.total !== undefined) {
-    currentUser.denk_points = res.total;
+function closePremiumModal() {
+  document.getElementById('premium-modal').classList.remove('open');
+}
+
+async function startPayment() {
+  const btn = document.getElementById('pay-btn');
+  const errEl = document.getElementById('premium-error');
+  btn.disabled = true; btn.textContent = '⏳ Yükleniyor...';
+  errEl.style.display = 'none';
+
+  const res = await api('POST', '/payment/start');
+  btn.disabled = false; btn.textContent = 'Ödeme Yap — 30 ₺';
+
+  if (res.detail) {
+    errEl.textContent = res.detail;
+    errEl.style.display = 'block';
+    return;
+  }
+
+  if (res.checkout_form_content) {
+    const wrap = document.getElementById('iyzico-form-wrap');
+    wrap.style.display = 'block';
+    wrap.innerHTML = res.checkout_form_content;
+    // Iyzico script'lerini yeniden çalıştır
+    wrap.querySelectorAll('script').forEach(s => {
+      const ns = document.createElement('script');
+      ns.textContent = s.textContent;
+      if (s.src) ns.src = s.src;
+      s.parentNode.replaceChild(ns, s);
+    });
+    document.getElementById('premium-actions').style.display = 'none';
+  }
+}
+
+async function checkPremiumStatus() {
+  const res = await api('GET', '/payment/status');
+  if (res.is_premium) {
+    currentUser.plan = 'premium';
     localStorage.setItem('denk_user', JSON.stringify(currentUser));
     updateTopbar();
-    debugOut('✦ +200 DP eklendi → Toplam: ' + res.total);
-  } else debugOut(res.detail || 'Hata');
-}
-
-async function debugMakePremium() {
-  const res = await api('POST', '/debug/make-premium');
-  if (res.message) {
-    const u = await api('GET', '/user/me');
-    currentUser = u; localStorage.setItem('denk_user', JSON.stringify(u));
-    updateTopbar(); loadProfile();
-    debugOut('👑 Premium aktif!');
-  } else debugOut(res.detail || 'Hata');
+    toast('👑 Premium aktif! 72 saati artık görebilirsin.');
+    closePremiumModal();
+  }
 }
 
 // Uygulama açılınca badge güncelle
