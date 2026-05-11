@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import {
   NavigationContainer,
   DefaultTheme,
-  NavigationProp,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, View } from 'react-native';
 
 import type { RootStackParamList } from './screens/navigation-types';
@@ -41,32 +39,16 @@ const AppTheme = {
 };
 
 /**
- * AppNavigator — Main navigation stack for wellness app.
- * Handles conditional flow: Splash → Onboarding → PrivacyConsent → Wizard/Home
+ * AppNavigator — Root navigation container.
+ * Bootstrap sırasında audit logger başlatılır; routing SplashScreen'e bırakılır.
  */
 function AppNavigator() {
   const [isReady, setIsReady] = useState(false);
-  const [isRegistered, setIsRegistered] = useState(false);
 
   useEffect(() => {
-    const bootstrap = async () => {
-      try {
-        // Initialize audit logger
-        await initAuditLogger();
-
-        // Check if user already registered
-        const savedUserId = await AsyncStorage.getItem('userId');
-        if (savedUserId) {
-          setIsRegistered(true);
-        }
-      } catch (error) {
-        console.error('Bootstrap error:', error);
-      } finally {
-        setIsReady(true);
-      }
-    };
-
-    bootstrap();
+    initAuditLogger()
+      .catch(() => undefined)
+      .finally(() => setIsReady(true));
   }, []);
 
   if (!isReady) {
@@ -80,22 +62,19 @@ function AppNavigator() {
   return (
     <NavigationContainer theme={AppTheme}>
       <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          cardStyle: { backgroundColor: '#F8FAFC' },
-        }}
-        initialRouteName={isRegistered ? 'Home' : 'Splash'}
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Splash"
       >
-        {/* Onboarding flow */}
+        {/* Onboarding flow — SplashScreen yönlendirmeyi kendisi belirler */}
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen name="PrivacyConsent" component={PrivacyConsentScreen} />
 
-        {/* Main questionnaire flow */}
+        {/* Questionnaire flow */}
         <Stack.Screen name="Wizard" component={WizardScreen} />
         <Stack.Screen name="Analysis" component={AnalysisScreen} />
 
-        {/* Expert referral — non-dismissible */}
+        {/* Expert referral — modal, non-dismissible */}
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
           <Stack.Screen name="ExpertReferral" component={ExpertReferralScreen} />
         </Stack.Group>
@@ -105,7 +84,7 @@ function AppNavigator() {
         <Stack.Screen name="FrequencyProgram" component={FrequencyProgramScreen} />
         <Stack.Screen name="Player" component={PlayerScreen} />
 
-        {/* Home and settings */}
+        {/* Main app */}
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />

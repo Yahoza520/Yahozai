@@ -72,6 +72,34 @@ export { QuestionCard } from './shared/components/QuestionCard';
 // ─── Navigation ───────────────────────────────────────────────────────────────
 export type { RootStackParamList } from './screens/navigation-types';
 
+// ─── Storage ──────────────────────────────────────────────────────────────────
+export {
+  saveUserId,
+  getUserId,
+  clearAllData,
+  saveConsentDate,
+  saveProgram,
+  getProgram,
+  markSessionComplete,
+  getCompletionsForDate,
+  isSessionCompletedToday,
+  updateStreak,
+  getStreak,
+} from './modules/storage';
+export type { SessionCompletion, StreakData } from './modules/storage';
+
+// ─── Audio Engine ─────────────────────────────────────────────────────────────
+export { buildAudioEngineHtml } from './modules/audio-engine';
+export type { AudioConfig } from './modules/audio-engine';
+
+// ─── Notifications ────────────────────────────────────────────────────────────
+export {
+  requestNotificationPermission,
+  cancelAllNotifications,
+  scheduleSessionReminders,
+  scheduleStreakReminder,
+} from './modules/notifications';
+
 // ─── Version ───────────────────────────────────────────────────────────────────
 export const VERSION = '0.1.0';
 export const MODULE_NAME = 'wellness';
