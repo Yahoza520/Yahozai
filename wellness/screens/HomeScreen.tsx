@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -8,11 +8,13 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from './navigation-types';
-import type { WeekDay, SessionRecord } from '../shared/types';
+import type { WeekDay, UserProgram } from '../shared/types';
 import { FREQUENCY_PROTOCOLS } from '../modules/clinical-dashboard/frequency-catalog';
 import { logAction } from '../modules/audit-logger';
+import { getProgram, getCompletionsForDate, getStreak } from '../modules/storage';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -43,7 +45,7 @@ interface DailySession {
 
 /**
  * Ana ekran — günlük frekans programı, ilerleme ve quick actions.
- * AsyncStorage'dan program ve session history yüklenir.
+ * AsyncStorage'dan program ve session geçmişi yüklenir.
  */
 export default function HomeScreen({ navigation, route }: Props) {
   const { userId } = route.params;
@@ -53,52 +55,66 @@ export default function HomeScreen({ navigation, route }: Props) {
   const [completedCount, setCompletedCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const [streak, setStreak] = useState(0);
+  const [program, setProgram] = useState<UserProgram | null>(null);
 
-  useEffect(() => {
+  const loadData = useCallback(async () => {
     logAction(userId, 'VERI_GORUNTULEME', 'HomeScreen', 'SUCCESS');
 
-    // Zaman-bazlı selamlama
     const hour = new Date().getHours();
     if (hour < 12) setGreeting('Günaydın');
     else if (hour < 18) setGreeting('Öğleden sonra');
     else setGreeting('İyi akşamlar');
 
-    // Mock: bugünün seanslarını yükle
-    // Gerçek uygulamada AsyncStorage'dan gelir
-    const mockSessions: DailySession[] = [
-      {
-        protocolId: 'ENERGY_RESTORE',
-        sessionKey: 'ENERGY_RESTORE.morning',
-        label: 'Sabah Aktivasyon',
-        frequency: 40,
-        durationMin: 10,
-        completed: true,
-      },
-      {
-        protocolId: 'NEURO_BALANCE',
-        sessionKey: 'NEURO_BALANCE.night',
-        label: 'Gece Sakinleşme',
-        frequency: 4,
-        durationMin: 15,
-        completed: false,
-      },
-    ];
+    const [savedProgram, completions, streakData] = await Promise.all([
+      getProgram(),
+      getCompletionsForDate(),
+      getStreak(),
+    ]);
 
-    setTodaySessions(mockSessions);
-    setTotalCount(mockSessions.length);
-    setCompletedCount(mockSessions.filter((s) => s.completed).length);
-    setStreak(12); // Mock streak
+    setProgram(savedProgram);
+    setStreak(streakData.count);
+
+    if (!savedProgram) {
+      setTodaySessions([]);
+      setTotalCount(0);
+      setCompletedCount(0);
+      return;
+    }
+
+    const todaySessionKeys: string[] = savedProgram.weeklyPlan[TODAY_KEY] ?? [];
+    const completedKeys = new Set(completions.map((c) => c.sessionKey));
+
+    const sessions: DailySession[] = todaySessionKeys.flatMap((key) => {
+      const [protocolId, timeKey] = key.split('.');
+      const protocol = FREQUENCY_PROTOCOLS.find((p) => p.protocolId === protocolId);
+      const session = protocol?.sessions.find((s) => s.time === timeKey);
+      if (!session) return [];
+      return [{
+        protocolId,
+        sessionKey: key,
+        label: session.label,
+        frequency: session.frequency,
+        durationMin: session.durationMin,
+        completed: completedKeys.has(key),
+      }];
+    });
+
+    setTodaySessions(sessions);
+    setTotalCount(sessions.length);
+    setCompletedCount(sessions.filter((s) => s.completed).length);
   }, [userId]);
+
+  // Her tab focus'ta verileri yeniden yükle (seans tamamlama sonrası güncel göster)
+  useFocusEffect(loadData);
 
   const nextIncomplete = todaySessions.find((s) => !s.completed);
   const progress = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   const handleStartSession = () => {
     if (!nextIncomplete) {
-      navigation.navigate('FrequencyProgram', {
-        program: {} as any,
-        userId,
-      });
+      if (program) {
+        navigation.navigate('FrequencyProgram', { program, userId });
+      }
       return;
     }
 
@@ -126,7 +142,7 @@ export default function HomeScreen({ navigation, route }: Props) {
           </View>
           <TouchableOpacity
             style={styles.profileBtn}
-            onPress={() => navigation.navigate('Profile' as any)}
+            onPress={() => navigation.navigate('Profile')}
           >
             <Text style={styles.profileIcon}>⚙️</Text>
           </TouchableOpacity>
@@ -138,16 +154,12 @@ export default function HomeScreen({ navigation, route }: Props) {
             <Text style={styles.progressLabel}>Bugünün İlerlemesi</Text>
             <Text style={styles.progressPercent}>{progress}%</Text>
           </View>
-
           <View style={styles.progressBar}>
             <View style={[styles.progressFill, { width: `${progress}%` }]} />
           </View>
-
           <Text style={styles.progressText}>
             {completedCount} / {totalCount} seans tamamlandı
           </Text>
-
-          {/* Streak */}
           <View style={styles.streakBox}>
             <Text style={styles.streakIcon}>🔥</Text>
             <View>
@@ -157,12 +169,9 @@ export default function HomeScreen({ navigation, route }: Props) {
           </View>
         </View>
 
-        {/* Quick start — sonraki seans */}
+        {/* Quick start */}
         {nextIncomplete ? (
-          <TouchableOpacity
-            style={styles.quickStartCard}
-            onPress={handleStartSession}
-          >
+          <TouchableOpacity style={styles.quickStartCard} onPress={handleStartSession}>
             <View style={styles.quickStartContent}>
               <Text style={styles.quickStartLabel}>Sıradaki Seans</Text>
               <Text style={styles.quickStartTitle}>{nextIncomplete.label}</Text>
@@ -178,9 +187,14 @@ export default function HomeScreen({ navigation, route }: Props) {
           <View style={styles.completedCard}>
             <Text style={styles.completedIcon}>✓</Text>
             <Text style={styles.completedText}>Bugün tüm seanslar tamamlandı!</Text>
-            <TouchableOpacity style={styles.viewProgramBtn}>
-              <Text style={styles.viewProgramText}>Programı Gör</Text>
-            </TouchableOpacity>
+            {program && (
+              <TouchableOpacity
+                style={styles.viewProgramBtn}
+                onPress={() => navigation.navigate('FrequencyProgram', { program, userId })}
+              >
+                <Text style={styles.viewProgramText}>Programı Gör</Text>
+              </TouchableOpacity>
+            )}
           </View>
         )}
 
@@ -189,7 +203,9 @@ export default function HomeScreen({ navigation, route }: Props) {
 
         {todaySessions.length === 0 ? (
           <View style={styles.emptyBox}>
-            <Text style={styles.emptyText}>Bu gün için seans planlanmamış.</Text>
+            <Text style={styles.emptyText}>
+              {program ? 'Bu gün için seans planlanmamış.' : 'Program bulunamadı.'}
+            </Text>
           </View>
         ) : (
           <FlatList
@@ -197,41 +213,36 @@ export default function HomeScreen({ navigation, route }: Props) {
             data={todaySessions}
             keyExtractor={(item) => item.sessionKey}
             renderItem={({ item }) => (
-              <View
-                style={[
-                  styles.sessionRow,
-                  item.completed && styles.sessionRowDone,
-                ]}
+              <TouchableOpacity
+                style={[styles.sessionRow, item.completed && styles.sessionRowDone]}
+                onPress={() => {
+                  if (!item.completed) {
+                    const [pid, time] = item.sessionKey.split('.');
+                    const protocol = FREQUENCY_PROTOCOLS.find((p) => p.protocolId === pid);
+                    const session = protocol?.sessions.find((s) => s.time === time);
+                    if (session) {
+                      navigation.navigate('Player', { session, userId, sessionKey: item.sessionKey });
+                    }
+                  }
+                }}
+                disabled={item.completed}
               >
                 <View style={styles.sessionInfo}>
-                  <Text
-                    style={[
-                      styles.sessionName,
-                      item.completed && styles.sessionNameDone,
-                    ]}
-                  >
+                  <Text style={[styles.sessionName, item.completed && styles.sessionNameDone]}>
                     {item.label}
                   </Text>
                   <Text style={styles.sessionMeta}>
                     {item.frequency} Hz · {item.durationMin} dk
                   </Text>
                 </View>
-                <View
-                  style={[
-                    styles.sessionStatus,
-                    item.completed && styles.sessionStatusDone,
-                  ]}
-                >
-                  <Text style={styles.statusIcon}>
-                    {item.completed ? '✓' : '○'}
-                  </Text>
+                <View style={[styles.sessionStatus, item.completed && styles.sessionStatusDone]}>
+                  <Text style={styles.statusIcon}>{item.completed ? '✓' : '○'}</Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             )}
           />
         )}
 
-        {/* Ek bilgiler */}
         <View style={styles.infoBox}>
           <Text style={styles.infoLabel}>💡 İpucu</Text>
           <Text style={styles.infoText}>
@@ -239,10 +250,9 @@ export default function HomeScreen({ navigation, route }: Props) {
           </Text>
         </View>
 
-        {/* Ayarlar linki */}
         <TouchableOpacity
           style={styles.settingsLink}
-          onPress={() => navigation.navigate('Settings' as any)}
+          onPress={() => navigation.navigate('Settings')}
         >
           <Text style={styles.settingsText}>Programımı Değiştir</Text>
         </TouchableOpacity>
@@ -318,7 +328,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(255,255,255,0.2)',
     justifyContent: 'center',
     alignItems: 'center',
   },

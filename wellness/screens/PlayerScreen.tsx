@@ -8,9 +8,12 @@ import {
   Animated,
   Easing,
 } from 'react-native';
+import { WebView } from 'react-native-webview';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from './navigation-types';
 import { logAction } from '../modules/audit-logger';
+import { markSessionComplete, updateStreak } from '../modules/storage';
+import { buildAudioEngineHtml } from '../modules/audio-engine';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Player'>;
 
@@ -18,19 +21,33 @@ const MAX_DAILY_MINUTES = 90;
 
 /**
  * Frekans seans oynatıcı ekranı.
- * Geri sayım, dalga animasyonu ve seans tamamlama akışını yönetir.
+ * Geri sayım, dalga animasyonu, WebView ses sentezi ve seans tamamlama akışını yönetir.
  */
 export default function PlayerScreen({ navigation, route }: Props) {
-  const { session, userId } = route.params;
+  const { session, userId, sessionKey } = route.params;
   const totalSeconds = session.durationMin * 60;
 
   const [secondsLeft, setSecondsLeft] = useState(totalSeconds);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [audioReady, setAudioReady] = useState(false);
 
   const waveAnim = useRef(new Animated.Value(1)).current;
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const startTimeRef = useRef<number | null>(null);
+  const webViewRef = useRef<WebView>(null);
+  const startTimeRef = useRef<number>(0);
+
+  const audioHtml = buildAudioEngineHtml({
+    frequency: session.frequency,
+    type: session.type,
+    waveform: session.waveform,
+  });
+
+  const sendAudioCommand = useCallback((command: object) => {
+    webViewRef.current?.injectJavaScript(
+      `window.dispatchEvent(new MessageEvent('message', { data: '${JSON.stringify(command)}' })); true;`
+    );
+  }, []);
 
   const startWave = useCallback(() => {
     Animated.loop(
@@ -61,29 +78,44 @@ export default function PlayerScreen({ navigation, route }: Props) {
     setIsPlaying(false);
     setIsCompleted(true);
     stopWave();
-    await logAction(userId, 'SEANS_BITIS', 'PlayerScreen', 'SUCCESS', session.label);
-  }, [userId, session.label, stopWave]);
+    sendAudioCommand({ type: 'STOP' });
+
+    const durationSec = Math.round((Date.now() - startTimeRef.current) / 1000);
+    await Promise.all([
+      markSessionComplete(sessionKey, durationSec),
+      updateStreak(),
+      logAction(userId, 'SEANS_BITIS', 'PlayerScreen', 'SUCCESS', session.label),
+    ]);
+  }, [userId, session.label, sessionKey, stopWave, sendAudioCommand]);
 
   const handleStart = useCallback(async () => {
     setIsPlaying(true);
     startTimeRef.current = Date.now();
     startWave();
+    sendAudioCommand({
+      type: 'START',
+      frequency: session.frequency,
+      freqType: session.type,
+      waveform: session.waveform,
+    });
     await logAction(userId, 'SEANS_BASLANGIC', 'PlayerScreen', 'SUCCESS', session.label);
-  }, [userId, session.label, startWave]);
+  }, [userId, session, sessionKey, startWave, sendAudioCommand]);
 
   const handlePause = useCallback(() => {
     setIsPlaying(false);
     stopWave();
     clearInterval(intervalRef.current!);
-  }, [stopWave]);
+    sendAudioCommand({ type: 'PAUSE' });
+  }, [stopWave, sendAudioCommand]);
 
   const handleStop = useCallback(async () => {
     clearInterval(intervalRef.current!);
     setIsPlaying(false);
     stopWave();
+    sendAudioCommand({ type: 'STOP' });
     await logAction(userId, 'SEANS_BITIS', 'PlayerScreen', 'FAILURE', session.label);
     navigation.goBack();
-  }, [userId, session.label, stopWave, navigation]);
+  }, [userId, session.label, stopWave, sendAudioCommand, navigation]);
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -120,6 +152,18 @@ export default function PlayerScreen({ navigation, route }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Gizli WebView ses motoru */}
+      <WebView
+        ref={webViewRef}
+        style={styles.hiddenWebView}
+        source={{ html: audioHtml }}
+        mediaPlaybackRequiresUserAction={false}
+        allowsInlineMediaPlayback
+        onMessage={(e) => {
+          if (e.nativeEvent.data === 'READY') setAudioReady(true);
+        }}
+      />
+
       {/* Başlık */}
       <View style={styles.header}>
         <TouchableOpacity onPress={handleStop} style={styles.closeBtn}>
@@ -149,10 +193,7 @@ export default function PlayerScreen({ navigation, route }: Props) {
         <View style={[styles.progressFill, { width: `${progress * 100}%` }]} />
       </View>
 
-      {/* Notlar */}
       <Text style={styles.notes}>{session.notes}</Text>
-
-      {/* Maksimum günlük süre uyarısı */}
       <Text style={styles.limitNote}>Günlük maksimum: {MAX_DAILY_MINUTES} dk</Text>
 
       {/* Kontroller */}
@@ -161,8 +202,9 @@ export default function PlayerScreen({ navigation, route }: Props) {
           <Text style={styles.stopBtnText}>Durdur</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.playBtn}
+          style={[styles.playBtn, !audioReady && styles.playBtnDisabled]}
           onPress={isPlaying ? handlePause : handleStart}
+          disabled={!audioReady}
         >
           <Text style={styles.playBtnText}>{isPlaying ? '⏸' : '▶'}</Text>
         </TouchableOpacity>
@@ -173,6 +215,7 @@ export default function PlayerScreen({ navigation, route }: Props) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0F172A', alignItems: 'center' },
+  hiddenWebView: { width: 0, height: 0, position: 'absolute' },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -188,7 +231,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 100,
-    backgroundColor: 'rgba(74, 144, 217, 0.15)',
+    backgroundColor: 'rgba(74,144,217,0.15)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -196,7 +239,7 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     borderRadius: 70,
-    backgroundColor: 'rgba(74, 144, 217, 0.3)',
+    backgroundColor: 'rgba(74,144,217,0.3)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -229,6 +272,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  playBtnDisabled: { backgroundColor: '#334155' },
   playBtnText: { color: '#FFF', fontSize: 24 },
   stopBtn: {
     paddingHorizontal: 20,

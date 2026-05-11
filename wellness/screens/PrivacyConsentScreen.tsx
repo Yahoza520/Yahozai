@@ -10,7 +10,9 @@ import {
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from './navigation-types';
 import { logAction } from '../modules/audit-logger';
-import crypto from 'crypto';
+import { saveUserId, saveConsentDate } from '../modules/storage';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'PrivacyConsent'>;
 
@@ -20,18 +22,20 @@ type Props = NativeStackScreenProps<RootStackParamList, 'PrivacyConsent'>;
  */
 export default function PrivacyConsentScreen({ navigation }: Props) {
   const [agreed, setAgreed] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleAccept = async () => {
-    if (!agreed) return;
-
-    // Anonim UUID oluştur
-    const userId = crypto.randomUUID();
-
-    // Consent logla
-    await logAction(userId, 'KULLANICI_GIRIS', 'PrivacyConsentScreen', 'SUCCESS');
-
-    // Wizard'a geç
-    navigation.replace('Wizard', { userId });
+    if (!agreed || loading) return;
+    setLoading(true);
+    try {
+      const userId = uuidv4();
+      await saveUserId(userId);
+      await saveConsentDate();
+      await logAction(userId, 'KULLANICI_GIRIS', 'PrivacyConsentScreen', 'SUCCESS');
+      navigation.replace('Wizard', { userId });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleReject = () => {
@@ -107,11 +111,13 @@ export default function PrivacyConsentScreen({ navigation }: Props) {
             <Text style={styles.rejectBtnText}>Reddet</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.acceptBtn, !agreed && styles.acceptBtnDisabled]}
+            style={[styles.acceptBtn, (!agreed || loading) && styles.acceptBtnDisabled]}
             onPress={handleAccept}
-            disabled={!agreed}
+            disabled={!agreed || loading}
           >
-            <Text style={styles.acceptBtnText}>Kabul Et & Başla</Text>
+            <Text style={styles.acceptBtnText}>
+              {loading ? 'Lütfen bekleyin…' : 'Kabul Et & Başla'}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

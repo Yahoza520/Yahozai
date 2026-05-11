@@ -2,27 +2,27 @@ import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from './navigation-types';
+import { getUserId } from '../modules/storage';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Splash'>;
 
 /**
  * Açılış ekranı — logo + yükleme animasyonu (1.5 sn).
- * Daha sonra kayıtlı kullanıcı varsa Home'a, yoksa Onboarding'e geçer.
+ * Kayıtlı userId varsa Home'a, yoksa Onboarding'e geçer.
  */
 export default function SplashScreen({ navigation }: Props) {
   useEffect(() => {
-    const timer = setTimeout(() => {
-      // Mock: kayıtlı kullanıcı kontrolü
-      const isRegistered = false; // AsyncStorage'dan gelir
-
-      if (isRegistered) {
-        navigation.replace('Home', { userId: 'usr_registered' });
+    const bootstrap = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const userId = await getUserId();
+      if (userId) {
+        navigation.replace('Home', { userId });
       } else {
         navigation.replace('Onboarding');
       }
-    }, 1500);
+    };
 
-    return () => clearTimeout(timer);
+    bootstrap();
   }, [navigation]);
 
   return (

@@ -14,6 +14,8 @@ import { calculateScores, getDominantDimensions, requiresExpertReferral } from '
 import { matchProtocols, prioritizeProtocols } from '../shared/utils/protocol-matcher';
 import { buildProgram } from '../shared/utils/program-builder';
 import { logAction } from '../modules/audit-logger';
+import { saveProgram } from '../modules/storage';
+import { scheduleSessionReminders, scheduleStreakReminder } from '../modules/notifications';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Analysis'>;
 
@@ -56,6 +58,11 @@ export default function AnalysisScreen({ navigation, route }: Props) {
           programDuration,
         );
 
+        await saveProgram(program);
+        await Promise.all([
+          scheduleSessionReminders(program),
+          scheduleStreakReminder(),
+        ]);
         await logAction(userId, 'VERI_GORUNTULEME', 'AnalysisScreen', 'SUCCESS');
 
         if (requiresExpertReferral(scores)) {
