@@ -11,4 +11,6 @@ export type RootStackParamList = {
   FrequencyProgram: { program: UserProgram; userId: string };
   Player: { session: FrequencySession; userId: string; sessionKey: string };
   Home: { userId: string };
+  Profile: undefined;
+  Settings: undefined;
 };
