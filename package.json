@@ -1,0 +1,59 @@
+{
+  "name": "yahozai",
+  "version": "0.1.0",
+  "description": "Wellness and bioresonance frequency therapy application",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-native": "^0.73.0",
+    "@react-navigation/native": "^6.1.0",
+    "@react-navigation/native-stack": "^6.9.0",
+    "@react-native-async-storage/async-storage": "^1.21.0",
+    "@react-native-community/slider": "^4.4.0",
+    "react-native-vector-icons": "^10.0.0",
+    "zod": "^3.22.0",
+    "winston": "^3.11.0",
+    "expo": "^50.0.0",
+    "expo-av": "^13.10.0",
+    "expo-notifications": "^0.27.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-native": "^0.73.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "jest": "^29.7.0",
+    "@testing-library/react-native": "^12.2.0",
+    "ts-jest": "^29.1.0",
+    "eslint": "^8.53.0",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0"
+  },
+  "jest": {
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "testMatch": [
+      "**/tests/**/*.test.ts",
+      "**/tests/**/*.test.tsx"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsconfig": {
+          "jsx": "react"
+        }
+      }
+    }
+  }
+}
