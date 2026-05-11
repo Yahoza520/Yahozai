@@ -15,12 +15,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "rootDir": ".",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-      "@wellness/*": ["wellness/*"]
-    },
-    "types": ["node", "@testing-library/react-native"],
+    "ignoreDeprecations": "6.0",
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
