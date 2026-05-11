@@ -4,3 +4,10 @@ from app.models.match import Match
 from app.models.report import Report
 from app.models.message import Message
 from app.models.subscription import Subscription
+from app.models.wellness import (
+    WellnessUser,
+    WellnessProgram,
+    WellnessSession,
+    WellnessAuditLog,
+    ExpertReferral,
+)

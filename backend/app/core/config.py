@@ -39,6 +39,10 @@ class Settings(BaseSettings):
     SMTP_PASSWORD: str = ""
     EMAIL_FROM: str = "DENK <noreply@denk.app>"
 
+    # Wellness modülü
+    WELLNESS_ENCRYPTION_KEY: str = "change-me-32-byte-key-in-production!"
+    WELLNESS_API_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 30  # 30 gün
+
     model_config = {"env_file": ".env"}
 
 
