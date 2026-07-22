@@ -61,58 +61,93 @@ def read_manifest():
         return list(csv.DictReader(f))
 
 
-def extract_image_url(html: str, base_url: str) -> str | None:
-    """Pick og:image first, else the largest-looking <img> src."""
+def extract_image_urls(html: str, base_url: str) -> list[str]:
+    """Return candidate image URLs: og:image first, then plausible <img> tags."""
     from urllib.parse import urljoin
 
-    m = re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)', html, re.I)
-    if not m:
-        m = re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', html, re.I)
-    if m:
-        return urljoin(base_url, m.group(1))
+    candidates: list[str] = []
+    for pat in (
+        r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)',
+        r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']',
+        r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)',
+    ):
+        candidates += re.findall(pat, html, re.I)
+
+    # Flickr embeds the size variants as staticflickr URLs in the page source.
+    flickr = re.findall(r'(https?:(?:\\/\\/|//)live\.staticflickr\.com[^"\']+_[bkh]\.jpg)', html)
+    candidates += [u.replace("\\/", "/") for u in flickr]
 
     imgs = re.findall(r'<img[^>]+src=["\']([^"\']+)["\']', html, re.I)
-    candidates = [u for u in imgs if not re.search(r"(logo|icon|sprite|banner|flag|\.svg)", u, re.I)]
-    return urljoin(base_url, candidates[0]) if candidates else None
+    candidates += [u for u in imgs if not re.search(r"(logo|icon|sprite|banner|flag|placeholder|\.svg)", u, re.I)]
+
+    seen, out = set(), []
+    for u in candidates:
+        u = urljoin(base_url, u)
+        if u not in seen:
+            seen.add(u)
+            out.append(u)
+    return out[:6]
+
+
+def fetch_best_image(url: str, session) -> Image.Image | None:
+    """Fetch url; if it's a page, try candidate images and keep the largest."""
+    r = session.get(url, headers=UA, timeout=30)
+    r.raise_for_status()
+    if r.headers.get("content-type", "").startswith("image/"):
+        return Image.open(io.BytesIO(r.content))
+
+    best, best_px = None, 0
+    for img_url in extract_image_urls(r.text, url):
+        try:
+            data = session.get(img_url, headers=UA, timeout=30).content
+            img = Image.open(io.BytesIO(data))
+            px = img.width * img.height
+            if px > best_px:
+                best, best_px = img, px
+        except Exception:
+            continue
+    if best is not None and (best.width < 200 or best.height < 200):
+        return None
+    return best
 
 
 def cmd_download():
     import requests
 
+    session = requests.Session()
     RAW.mkdir(exist_ok=True)
     manual = []
     for row in read_manifest():
-        url = row["source_url"].strip()
+        urls = [u for u in (row["source_url"].strip(), row.get("alt_url", "").strip()) if u]
         name = f'{int(row["no"]):02d}_{slugify(row["name"])}'
         out = RAW / f"{name}.jpg"
         if out.exists():
             continue
-        if not url:
+        if not urls:
             manual.append((row["no"], row["name"], "kaynak yok - manuel arama gerekli"))
             continue
-        if "linkedin.com" in url:
-            manual.append((row["no"], row["name"], url))
+        if all("linkedin.com" in u for u in urls):
+            manual.append((row["no"], row["name"], urls[0]))
             continue
-        try:
-            r = requests.get(url, headers=UA, timeout=30)
-            r.raise_for_status()
-            ctype = r.headers.get("content-type", "")
-            if ctype.startswith("image/"):
-                img_bytes = r.content
-            else:
-                img_url = extract_image_url(r.text, url)
-                if not img_url:
-                    manual.append((row["no"], row["name"], f"{url} (sayfada resim bulunamadi)"))
-                    continue
-                img_bytes = requests.get(img_url, headers=UA, timeout=30).content
-            img = Image.open(io.BytesIO(img_bytes))
-            if img.width < 200 or img.height < 200:
-                manual.append((row["no"], row["name"], f"{url} (resim cok kucuk: {img.size})"))
+
+        saved = False
+        errors = []
+        for url in urls:
+            if "linkedin.com" in url:
                 continue
-            img.convert("RGB").save(out, "JPEG", quality=95)
-            print(f"OK   {out.name}  {img.size}  <- {url}")
-        except Exception as e:
-            manual.append((row["no"], row["name"], f"{url} ({e})"))
+            try:
+                img = fetch_best_image(url, session)
+                if img is None:
+                    errors.append(f"{url} (uygun resim yok)")
+                    continue
+                img.convert("RGB").save(out, "JPEG", quality=95)
+                print(f"OK   {out.name}  {img.size}  <- {url}")
+                saved = True
+                break
+            except Exception as e:
+                errors.append(f"{url} ({e})")
+        if not saved:
+            manual.append((row["no"], row["name"], "; ".join(errors) or urls[0]))
 
     if manual:
         print("\n--- Manuel islem gereken kisiler (fotografi photos_raw/ altina NN_Isim.jpg olarak kaydedin) ---")

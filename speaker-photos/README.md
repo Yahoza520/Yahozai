@@ -45,14 +45,24 @@ python process_photos.py sheet      # contact_sheet.pdf (kimlik kontrolü için)
   Erdoğan Öz, Ömer Bircan, Yıldıray Gençer, Arzu Oğuz, Münir Oğuz, Neil
   Narriman, Claudio Bergonzi, Nicole Klug, Direnç Bada, Ali Bozoğlu.
 - **LinkedIn (manuel kayıt gerekli):** Janina Seiler, Lucy Hambloch, Mohamed
-  Taha, Çağdaş Aksoy, Aslı Tireli, Bahar Dağhan, Colin Denyer, Bora Çakmak.
-- **Bulunamadı / teyit gerekli:** Cemil Cem Aydın, Ali Kemal Al, Özgür Atış,
-  Evrim Kayataş Sencer, Mehmet Taştan, Hasibe Işıklı, Marcus Akota (isim
-  yazımı şüpheli), Şanel Karatepe, J. E. Blasco Ruiz, Süleyman Kenar, Niall
-  McCarthy (kurumu belirsiz), Anton Pakhomov, Mesut Ük, Mehmet Çakmak.
-  Bunlar için en sağlıklı yol kurumlarından/kendilerinden vesikalık istemek.
+  Taha, Çağdaş Aksoy, Aslı Tireli, Bahar Dağhan, Colin Denyer, Bora Çakmak,
+  Niall McCarthy.
+- **Orta güven (haber/kişisel site fotoğrafı):** Sevil Hüseyinova (WHO),
+  Zeliha Özdemir Köken, Yunus Bayram, Tayyip Eroğlu, Mehmet Taştan (kişisel
+  sitesi — hakim/şair, aynı kişi olduğu teyit edilmeli), Mesut Ük (REDES
+  haberleri), Recep Tolga Kıvanç, Artur Shamilov, Burak Deveci.
+- **Bulunamadı (ikinci tur aramada da):** Cemil Cem Aydın, Ali Kemal Al,
+  Özgür Atış, Evrim Kayataş Sencer, Hasibe Işıklı, Marcus Akota (isim yazımı
+  büyük olasılıkla hatalı), Şanel Karatepe (kaynaklarda "Şanel Ala"),
+  Emmanuel Aubriot, J. E. Blasco Ruiz, Süleyman Kenar, Anton Pakhomov
+  (yalnız ZoomInfo kaydı), Mehmet Çakmak. Bunlar için en sağlıklı yol
+  kurumlarından/kendilerinden vesikalık istemek.
 
 Notlar:
 - Listede 22 = 46 (Yıldıray Gençer) ve 38 = 48 (Süleyman Kenar) mükerrer.
 - 36 "Nicola Klug" → doğrusu **Nicole Klug**; 49 "Artur Samilova" → muhtemelen
   **Artur Shamilov** (FAO Budapeşte).
+- 40 Niall McCarthy'nin kurumu tespit edildi: **Pharmaceutical Security
+  Institute (PSI) EMEA Bölge Direktörü** (eski HPRA).
+- Betik her satır için `source_url` + `alt_url` dener, sayfadaki aday
+  görsellerden en büyüğünü seçer (Flickr boyut varyantları dahil).
