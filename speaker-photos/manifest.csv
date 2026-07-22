@@ -1,0 +1,49 @@
+no,name,organization,country,source_url,source_type,confidence,notes
+1,Ali FİDAN,Emniyet Genel Müdürü,TÜRKİYE,https://www.egm.gov.tr/emniyet-genel-mudurumuz-sayin,official_page,high,"Resmi EGM sayfası; ayrıca basın galerileri: https://www.ntv.com.tr/gundem/yeni-emniyet-genel-muduru-ali-fidan-kimdir-1722208"
+2,Emrullah GÖLCÜK,EGM Güvenlik Daire Başkanı,TÜRKİYE,https://www.egm.gov.tr/guvenlik/baskan,official_page,high,Resmi EGM daire başkanı sayfası (özgeçmiş + portre)
+3,Gökhan DEMİRTOLA,EGM Dış İlişkiler Daire Başkanı,TÜRKİYE,https://www.egm.gov.tr/disiliskiler/baskanimiz,official_page,high,Resmi EGM sayfası; ayrıca https://x.com/paedutr/status/1872666281767510292
+4,Cemil Cem AYDIN,EGM Fikri Mülkiyet Suçlarıyla Mücadele Türkiye Müdürü,TÜRKİYE,https://www.turkiyegazetesi.com.tr/gundem/dunyanin-yarisiyla-ortak-operasyon-yapildi-fikri-mulkiyet-burosu-sahte-urunu-affetmiy-1804373,news_article,low,Net portre bulunamadı; EGM basın biriminden istenmesi önerilir
+5,Edward KWAKWA,WIPO Genel Müdür Yardımcısı,İSVİÇRE,https://www.flickr.com/photos/wipo/50777565773,official_photo,high,"WIPO resmi Flickr portresi (Emmanuel Berrod); indirme: sayfadan en büyük boyutu seçin"
+6,Dr. Sevil HÜSEYİNOVA,WHO Türkiye Temsilcisi,TÜRKİYE,https://www.linkedin.com/search/results/people/?keywords=Sevil%20Huseynova%20WHO,linkedin_search,low,"WHO Avrupa PHHE Merkezi Başkanı / WHO Türkiye temsilcisi vekili; WHO country office sayfası: https://www.who.int/turkiye"
+7,Etienne SANZ DE ACEDO,INTA CEO,ABD,https://www.inta.org/about/press-center/press-assets/,press_assets,high,"Resmi basın fotoğrafları: INTA-CEO-Etienne-Sanz-de-Acedo-1.jpg / -3.jpg bu sayfadan indirilebilir"
+8,Janina SEILER,Merck Küresel Sağlık Sektörü Soruşturmaları Başkanı,ALMANYA,https://www.linkedin.com/in/janina-seiler-1ab1b5240/,linkedin,medium,LinkedIn profil fotoğrafı (giriş yapılmış tarayıcıdan kaydedin)
+9,Gert-Jan VAN DIEST,AbbVie EMEA Tedarik Zinciri Güvenliği,HOLLANDA,https://logipharmaeu.wbresearch.com/speakers/gert-jan-van-diest,conference_page,high,LogiPharma konuşmacı sayfasında kurumsal vesikalık mevcut
+10,Lucy HAMBLOCH,Novartis Anti-Falsified Medicines Avrupa,İNGİLTERE,https://www.linkedin.com/in/352295209/,linkedin,medium,LinkedIn profil fotoğrafı (giriş yapılmış tarayıcıdan kaydedin)
+11,Mohamed TAHA,Kenvue Küresel Marka Koruma Müdürü,BAE,https://www.linkedin.com/in/mohamed-taha-434b1086/,linkedin,medium,LinkedIn profil fotoğrafı (giriş yapılmış tarayıcıdan kaydedin)
+12,Ali Kemal AL,Mali Suçlarla Mücadele Türkiye Müdürü,TÜRKİYE,,not_found,none,Kamuya açık fotoğraf bulunamadı; EGM basın biriminden istenmesi önerilir
+13,Çağdaş AKSOY,EGM Kriminal Türkiye Laboratuvarları Müdürü,TÜRKİYE,https://www.linkedin.com/in/%C3%A7a%C4%9Fda%C5%9F-aksoy-164235135/,linkedin,medium,Ankara Bölge Kriminal Polis Laboratuvarı Müdürü; LinkedIn fotoğrafı
+14,Prof. Dr. M. Zeki DURAK,Türk Patent ve Marka Kurumu Başkanı,TÜRKİYE,https://www.turkpatent.gov.tr/baskan,official_page,high,TÜRKPATENT resmi başkan sayfası portresi
+15,Özgür ATIŞ,Şanlı İlaç Genel Müdürü,TÜRKİYE,https://www.sanliilac.com.tr,company_site,low,Şirket sitesi/haber taraması önerilir; net portre bulunamadı
+16,Doç. Dr. Zeliha ÖZDEMİR KÖKEN,TÜSEB TTO Genel Müdürü,TÜRKİYE,https://www.tuseb.gov.tr/tuseb-tto/tuseb-teknoloji-transfer-ofisi,official_page,medium,TÜSEB TTO ve haber sayfalarındaki etkinlik fotoğrafları
+17,Umut Çağdaş TAHİROĞULLARI,Avukat (Kenaroğlu),TÜRKİYE,https://kenaroglu.av.tr/umut-cagdas-tahirogullari,firm_profile,high,Büro profil sayfasında profesyonel portre
+18,Evrim KAYATAŞ SENCER,Sanipak Türkiye Direktörü,TÜRKİYE,https://www.linkedin.com/search/results/people/?keywords=Evrim%20Kayata%C5%9F%20Sencer,linkedin_search,low,LinkedIn'de manuel arama gerekli (eski Eczacıbaşı pazarlama müdürü)
+19,Doç. Dr. Erdoğan ÖZ,Halk Sağlığı Genel Müdürü,TÜRKİYE,https://hsgm.saglik.gov.tr/tr/genel-mudur-yardimcilarimiz/uzm-dr-erdogan-oz.html,official_page,high,HSGM resmi sayfa portresi
+20,Doç. Dr. Yunus BAYRAM,Gıda Kontrol Genel Müdürü,TÜRKİYE,https://vskn.tarimorman.gov.tr/zonguldak/Menu/24/Doc-Dr-Yunus-Bayram-Genel-Mudur-Yardimcisi,official_page,medium,Tarım ve Orman Bakanlığı sayfası; ayrıca kurum ziyaret haberlerinde fotoğraflar
+21,Dr. Ömer BİRCAN,Çevre Sağlığı Dairesi Başkanı,TÜRKİYE,https://hsgm.saglik.gov.tr/tr/baskanligimiz-cevresagligi/daire-baskani.html,official_page,high,HSGM resmi daire başkanı sayfası portresi
+22,Yıldıray GENÇER,TSÜAB Başkanı,TÜRKİYE,https://www.tsuab.org.tr/Page/1021/1,official_page,high,"TSÜAB kurumsal sayfası; ayrıca https://x.com/Ahmet_Guldal/status/1968327866367549741 (No 46 ile aynı kişi)"
+23,Aslı TİRELİ,NIKE Türkiye Marka Koruma,TÜRKİYE,https://www.linkedin.com/in/asli-tireli-ll-m-1b69314/,linkedin,medium,LinkedIn profil fotoğrafı (giriş yapılmış tarayıcıdan kaydedin)
+24,Emmanuel AUBRIOT,Louis Vuitton,FRANSA,https://www.linkedin.com/search/results/people/?keywords=Emmanuel%20Aubriot%20Louis%20Vuitton,linkedin_search,low,Kamuya açık kaynak bulunamadı; LinkedIn'de manuel arama gerekli
+25,Prof. Dr. Arzu OĞUZ,Ankara Üniv. Hukuk Fak. FM Hukuku ABD Başkanı,TÜRKİYE,https://avesis.ankara.edu.tr/aoguz,university_profile,high,"AVESİS akademik profili; alternatif: https://hukukbook.com/prof-dr-arzu-oguz/"
+26,Dr. Tayyip EROĞLU,Adalet Bakanlığı DİABGM Genel Müdür Yrd.,TÜRKİYE,https://diabgm.adalet.gov.tr/Home/PersonelListe/Genel%20M%C3%BCd%C3%BCr%20Yard%C4%B1mc%C4%B1s%C4%B1,official_page,medium,DİABGM personel sayfasında portre olmalı
+27,Mehmet TAŞTAN,Ankara Fikri Mülkiyet Savcısı,TÜRKİYE,,not_found,none,Yargı mensubu; kamuya açık portre bulunamadı - adliye basın biriminden istenmesi önerilir
+28,Münir OĞUZ,Ticaret Bakanlığı Gümrükler Gen. Müd. Yrd.,TÜRKİYE,https://ggm.ticaret.gov.tr/kurumsal/genel-mudur-yardimcilari,official_page,high,GGM resmi genel müdür yardımcıları sayfası
+29,Hasibe IŞIKLI,Cumhurbaşkanlığı SBB Bütçe Uzmanı,TÜRKİYE,,not_found,none,Kamuya açık fotoğraf bulunamadı; SBB'den istenmesi önerilir
+30,Bahar DAĞHAN,Puma Junior Counsel Brand Protection,TÜRKİYE,https://de.linkedin.com/in/bahardaghan,linkedin,medium,LinkedIn profil fotoğrafı (giriş yapılmış tarayıcıdan kaydedin)
+31,Neil NARRIMAN,Puma Fikri Mülkiyet Küresel Direktörü,ALMANYA,https://about.puma.com/en/newsroom/news/pumas-general-counsel-intellectual-property-voted-president-fesi,press_release,high,"PUMA basın bülteni fotoğrafı; alternatif: https://theorg.com/org/puma/org-chart/neil-narriman"
+32,Colin DENYER,Apple Senior Investigator,İNGİLTERE,https://www.linkedin.com/in/colin-denyer-b393828a/,linkedin,medium,LinkedIn profil fotoğrafı (giriş yapılmış tarayıcıdan kaydedin)
+33,Marcus AKOTA,Amazon Küresel Risk Yöneticisi,ABD,,not_found,none,"Bu isimle kamuya açık kayıt bulunamadı; isim yazımını teyit edin (Amazon CCU/Global Risk)"
+34,Claudio BERGONZI,Alibaba Director Global IP Enforcement,İTALYA,https://www.insme.org/annual-meetings/annual-meeting-2025/,conference_page,high,"INSME 2025 konuşmacı fotoğrafı; ayrıca INDICAM kaynakları"
+35,Şanel KARATEPE,PTTAVM Kamu Politikaları Başkanı,TÜRKİYE,https://www.linkedin.com/search/results/people/?keywords=%C5%9Eanel%20PttAVM,linkedin_search,low,"Kaynaklarda 'Şanel Ala' olarak da geçiyor; LinkedIn'de manuel arama gerekli"
+36,Nicole KLUG,Hugo Boss Global IP Head,İSVİÇRE,https://www.worldtrademarkreview.com/rankings/wtr-300/profile/person/nicole-klug,professional_profile,high,"WTR 300 profili; alternatif: https://theorg.com/org/hugo-boss/org-chart/nicole-klug (listede 'Nicola' yazılmış, doğrusu Nicole)"
+37,Jose Enrique BLASCO RUIZ,Pop Mart (Labubu) Temsilcisi,İSPANYA,https://www.linkedin.com/search/results/people/?keywords=Jose%20Enrique%20Blasco%20Pop%20Mart,linkedin_search,none,Kamuya açık kaynak bulunamadı; LinkedIn'de manuel arama gerekli
+38,Süleyman KENAR,AIB Türkiye Koordinatörü,TÜRKİYE,https://www.aib-seeds.com/,org_site,low,"AIB ekip sayfası/LinkedIn taranmalı (No 48 ile aynı kişi)"
+39,Direnç BADA,Avukat (Gün + Partners),TÜRKİYE,https://gun.av.tr/people/direnc-bada,firm_profile,high,Büro profil sayfasında profesyonel portre
+40,Niall McCARTHY,Avrupa-Ortadoğu-Afrika Bölge Başkanı,İRLANDA,,not_found,none,Bağlı olduğu kurum listede belirsiz; teyit edilirse arama yapılabilir
+41,Anton PAKHOMOV,Pfizer Güvenlik Direktörü,RUSYA,https://www.linkedin.com/search/results/people/?keywords=Anton%20Pakhomov%20Pfizer,linkedin_search,low,ZoomInfo kaydı mevcut; LinkedIn'de manuel arama gerekli
+42,Mesut ÜK,Sağlık Bakanlığı Teftiş Kurulu Başkan Yrd.,TÜRKİYE,https://teftis.saglik.gov.tr/,official_site,low,REDES koordinatörü/başmüfettiş; kurum sayfasında portre yok - haber fotoğrafları taranmalı
+43,Bora ÇAKMAK,MASAK FATF Delegasyon Başkanı,TÜRKİYE,https://tr.linkedin.com/in/bora-cakmak-2718b1241,linkedin,medium,LinkedIn profil fotoğrafı (giriş yapılmış tarayıcıdan kaydedin)
+44,Dr. Recep Tolga KIVANÇ,TOB Veteriner Sağlık Ürünleri Daire Başkanı,TÜRKİYE,https://www.tarimorman.gov.tr/GKGM/Sayfalar/Detay.aspx?SayfaId=4,official_page,medium,GKGM daire sayfası; TVHB haber fotoğrafları da mevcut
+45,Mehmet ÇAKMAK,TOB Tohumculuk Dairesi Yüksek Mühendis,TÜRKİYE,,not_found,none,Sunum PDF'leri var ancak portre bulunamadı
+47,Ali BOZOĞLU,Avukat (Kenaroğlu),TÜRKİYE,https://kenaroglu.av.tr/ali-bozoglu,firm_profile,high,Büro profil sayfasında profesyonel portre
+49,Artur SHAMILOV (listede SAMILOVA),FAO Budapeşte Temsilcisi,MACARİSTAN,https://www.researchgate.net/profile/Artur-Shamilov,professional_profile,medium,"FAO REU Budapeşte tarım uzmanı; isim listede muhtemelen hatalı yazılmış"
+50,Burak DEVECİ,TOB Veteriner Hizmetleri ve Halk Sağlığı Daire Başkanı,TÜRKİYE,https://www.karsvho.org.tr/kars-vho-baskani-odulden-daire-baskani-burak-deveciye-ziyaret/,news_article,medium,"Ziyaret haberlerinde fotoğraflar; ayrıca https://www.avho.org.tr/veteriner-hizmetleri-ve-halk-sagligi-daire-baskanligindan-odamiza-ziyaret/"
