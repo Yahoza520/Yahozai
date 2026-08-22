@@ -1,0 +1,42 @@
+# Saguya Health — systemd servis dosyası (Hostinger VPS)
+#
+# Uygulamayı arka planda sürekli çalışır tutar, sunucu yeniden başlarsa
+# otomatik ayağa kaldırır.
+#
+# Kurulum:
+#   1) Uygulama sunucuda /var/www/saguya dizininde olsun (git clone ile).
+#   2) Bu dosyayı şuraya kopyalayın:
+#        sudo cp deploy/saguya.service /etc/systemd/system/saguya.service
+#   3) Ortam değişkenlerini /var/www/saguya/.env.local içine koyun.
+#   4) Etkinleştirip başlatın:
+#        sudo systemctl daemon-reload
+#        sudo systemctl enable --now saguya
+#   5) Durum / günlük:
+#        sudo systemctl status saguya
+#        sudo journalctl -u saguya -f
+#
+# NOT: WorkingDirectory ve User değerlerini kendi sunucunuza göre ayarlayın.
+
+[Unit]
+Description=Saguya Health (Next.js) uygulamasi
+After=network.target
+
+[Service]
+Type=simple
+# standalone derleme sonucu bu dizine üretilir (deploy.sh statikleri buraya kopyalar):
+WorkingDirectory=/var/www/saguya/.next/standalone
+# standalone sunucuyu çalıştırır:
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=HOSTNAME=127.0.0.1
+# Ortam değişkenlerini dosyadan yükle (Supabase anahtarları burada):
+EnvironmentFile=/var/www/saguya/.env.local
+# Hangi kullanıcıyla çalışacağı (kök yerine sınırlı bir kullanıcı önerilir):
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target

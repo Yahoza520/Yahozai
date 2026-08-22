@@ -13,7 +13,7 @@ buluşturan iki taraflı sağlık turizmi platformu.
 - **Next.js 15** (App Router) + **TypeScript**
 - **Tailwind CSS**
 - **Supabase** (veritabanı, giriş, dosya, güvenlik)
-- **Vercel** (yayın)
+- **Hostinger VPS** (yayın — Node.js + Nginx + systemd)
 
 ---
 
@@ -59,14 +59,17 @@ Sırasıyla:
 > **Güvenlik:** `service_role` (gizli) anahtarını hiçbir yere yapıştırmayın.
 > Ona Faz 0'da ihtiyacımız yok.
 
-### 3) Vercel'e yayınlama (canlı URL)
+### 3) Hostinger VPS'e yayınlama (canlı URL)
 
-1. https://vercel.com → GitHub ile giriş → **Add New → Project**.
-2. `saguya` deposunu seçin. Vercel Next.js'i otomatik tanır.
-3. **Environment Variables** bölümüne yukarıdaki iki Supabase değerini girin.
-4. **Deploy** → birkaç dakikada canlı URL hazır olur.
+Adım adım kılavuz: **`deploy/DEPLOY.md`**.
 
-Bundan sonra her `git push` otomatik olarak siteyi günceller.
+Özet: sunucuya SSH ile bağlanılır, Node.js + Nginx kurulur, depo çekilir,
+Supabase anahtarları `.env.local`'a girilir, `systemd` servisi ile uygulama
+sürekli çalışır hale getirilir. İlk kurulumdan sonra her güncelleme tek komut:
+
+```bash
+cd /var/www/saguya && ./deploy/deploy.sh
+```
 
 ---
 

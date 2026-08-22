@@ -60,7 +60,7 @@ Bu kararlar alındı. Yücel açıkça istemedikçe bunları tartışmaya açma,
 | Framework | **Next.js 15 (App Router) + TypeScript** | Hasta sitesi ve klinik paneli tek kod tabanında |
 | Arayüz | **Tailwind CSS + shadcn/ui** | Hazır, düzenlenebilir bileşenler; tasarımcı beklemeden ilerleriz |
 | Veritabanı + giriş | **Supabase** (Postgres, Auth, Storage, RLS) | Sunucu yönetimi yok, güvenlik veritabanı seviyesinde |
-| Barındırma | **Vercel** | `git push` → site canlıda |
+| Barındırma | **Hostinger VPS** (Node.js + Nginx + systemd) | Sahibin (Yücel) tercihi; Vercel hesabı yerine mevcut Hostinger sunucusu. Dağıtım: `deploy/DEPLOY.md`. Güncelleme: `./deploy/deploy.sh` |
 | Ödeme | **Stripe** (uluslararası) + **iyzico** (TR) | Kart ödemesi ve tutma (hold) akışı |
 | E-posta | **Resend** | İşlem e-postaları |
 | Yapay zekâ | **Anthropic API (Claude)** | Eşleştirme skoru ve çeviri |
@@ -241,6 +241,6 @@ ayrı bir araç — ürünün parçası değil. Karıştırma.
 
 ## 11. PROJENİN ŞU ANKİ DURUMU
 
-`durum: Faz 0 devam ediyor — Next.js 15 + Tailwind + Supabase iskeleti kuruldu, "Yakında" sayfası hazır, Vercel + Supabase yayını bekleniyor`
+`durum: Faz 0 devam ediyor — Next.js 15 + Tailwind + Supabase iskeleti ve "Yakında" sayfası hazır; ayrı depo (Yahoza520/saguya) + Hostinger VPS yayını bekleniyor`
 
 > Bu satırı her faz bittiğinde güncelle.
